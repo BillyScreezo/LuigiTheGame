@@ -1,0 +1,10 @@
+LuigiTheGame
+Maps
+x64
+release/exe
+.vs
+
+*.sln
+*.vcxproj
+*.filters
+*.user
