@@ -8,3 +8,8 @@ release/exe
 *.vcxproj
 *.filters
 *.user
+
+build/
+compile_commands.json
+.cache/
+
