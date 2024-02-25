@@ -5,18 +5,15 @@
 #include "Foo.h"
 #include "MapCreator.h"
 
-extern int pLives = 3;
+extern int pLives{ 3 };
 
-int main()
-{
+int main() {
 	HideCursor();
-	bool isend = false;
-	while (!isend)
-	{
+	bool isend{ false };
+	while (!isend) {
 		SetCur(0, 0);
 		std::cout << "Main Menu\n\n1 - Play\n2 - Map Creator\n3 - Exit\n";
-		switch (_getch())
-		{
+		switch (_getch()) {
 		case '1':
 			playMenu();
 			break;

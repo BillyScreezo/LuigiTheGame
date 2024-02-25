@@ -6,6 +6,7 @@
 #include "Ground.h"
 #include "Map.h"
 #include "Enemy.h"
+#include "Const.h"
 
 class Enemy;
 
@@ -22,29 +23,29 @@ public:
 	unsigned timeonground{ 0 };
 	float startJump{ 0.0f };
 	float stdspeed;
-	bool status();
-	bool isjump = false, ctrl = true;
-	bool ismove_r = true, ismove_l = true, onground = false, underground = false;
-	bool side{ 0 };
+	inline bool status() { return isStand; }
+	bool isjump{ false }, ctrl{ true };
+	bool ismove_r{ true }, ismove_l{ true }, onground{ false }, underground{ false };
+	bool side{ false };
 	std::vector<Ground*> ground_list;
 	Player(float, float, int, int, float, float, char, Map&, std::vector<Ground*>&);
 
 	void physic(std::vector<Enemy*>&, bool);
 	virtual void die(bool type = true) override;
 	void resetPlayer();
-	void resetScore();
+	inline void resetScore() { score = 0; }
 
 	bool useStar();
-	void takeLiveMushroom();
+	inline void takeLiveMushroom() { ++pLives; }
 	void takeStar(int);
-	void addScore(int);
+	inline void addScore(int score) { this->score += score; }
 
 	void jump(std::vector<Ground*>&);
 	void jump(std::vector<Ground*>&, std::vector<Enemy*>&);
 
-	bool checkDown();
+	inline bool checkDown() { return y >= gDown; }
 
-	size_t getLevel();
+	inline size_t getLevel() { return this->level; }
 	void levelUp();
 	void levelDown();
 
