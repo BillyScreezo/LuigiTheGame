@@ -6,10 +6,6 @@
 #include "Ground.h"
 #include "Player.h"
 
-// Уникальный идентификатор сущности
-// Необходимо обнулять на каждом level
-static int sID{ 0 };
-
 class Player;
 
 // Тип сущности
@@ -77,6 +73,10 @@ private:
 	void inVision();
 
 public:
+
+	// Уникальный идентификатор сущности
+	// Необходимо обнулять на каждом level
+	static int sID;
 
 	// Активена ли сущность
 	bool status();

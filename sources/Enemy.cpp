@@ -3,6 +3,8 @@
 #include "Enemy.h"
 #include "Const.h"
 
+int Enemy::sID = 0;
+
 void Enemy::putOnMap()
 {
 	roundCoords();
