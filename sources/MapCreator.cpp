@@ -1,4 +1,9 @@
+#include <iostream>
+#include <conio.h>
+#include <Windows.h>
+
 #include "MapCreator.h"
+#include "Foo.h"
 
 using namespace std;
 

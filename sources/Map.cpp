@@ -1,6 +1,7 @@
-#include "Map.h"
 #include <iostream>
 #include <cstring>
+
+#include "Map.h"
 
 Map::Map()
 {

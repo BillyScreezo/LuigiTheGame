@@ -1,4 +1,7 @@
+#include <ctime>
+
 #include "Enemy.h"
+#include "Const.h"
 
 void Enemy::putOnMap()
 {

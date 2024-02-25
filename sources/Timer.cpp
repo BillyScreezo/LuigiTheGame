@@ -1,5 +1,6 @@
-#include "Timer.h"
 #include <ctime>
+
+#include "Timer.h"
 
 void Timer::set() { time_start = clock(); }
 

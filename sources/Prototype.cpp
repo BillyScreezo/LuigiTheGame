@@ -1,6 +1,7 @@
-#include "Prototype.h"
 #include <cmath>
 #include <ctime>
+
+#include "Prototype.h"
 
 void Prototype::putOnMap()
 {

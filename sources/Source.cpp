@@ -1,7 +1,10 @@
-﻿#include "Levels.h"
+﻿#include <iostream>
+#include <conio.h>
+#include <vector>
+
 #include "Foo.h"
 #include "MapCreator.h"
-#include <vector>
+
 extern int pLives = 3;
 using namespace std;
 int main()

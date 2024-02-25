@@ -1,4 +1,7 @@
- #include "Ground.h"
+#include <cmath>
+#include <algorithm>
+
+#include "Ground.h"
 
 Ground::Ground()
 {
@@ -116,7 +119,7 @@ Ground::Ground(int x1, int x2, int y1, int y2, size_t type, Map& map)
 	roundCoords();
 	this->map = &map;
 	if (y2 < 0) this->y2 = map.getHeight() - 1;
-	if (this->y1 > this->y2) swap(this->y1, this->y2);
+	if (this->y1 > this->y2) std::swap(this->y1, this->y2);
 	if (this->y2 >= map.getHeight()) this->y2 = map.getHeight() - 1;
 }
 Ground::Ground(int x1, int x2, int y1, int y2, size_t type, Map& map, size_t range)
@@ -132,7 +135,7 @@ Ground::Ground(int x1, int x2, int y1, int y2, size_t type, Map& map, size_t ran
 	roundCoords();
 	this->map = &map;
 	if (y2 < 0) this->y2 = map.getHeight() - 1;
-	if (this->y1 > this->y2) swap(this->y1, this->y2);
+	if (this->y1 > this->y2) std::swap(this->y1, this->y2);
 	if (this->y2 >= map.getHeight()) this->y2 = map.getHeight() - 1;
 	setDiapasoneX(this->x1, this->x1 + static_cast<int>(range));
 }

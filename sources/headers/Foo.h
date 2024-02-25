@@ -1,25 +1,26 @@
 #pragma once
-#include <Windows.h>
-#include <ctime>
+
 #include <string>
 #include <vector>
-#include <cstring>
-#include <conio.h>
+
 #include "Ground.h"
 #include "Map.h"
 #include "Timer.h"
+
 class Player;
 class Enemy;
+
 void SetCur(int x, int y);
 void HideCursor();
 time_t getTime();
-void control(Map& map, Player& player, vector<Ground*>& ground_list, vector<Enemy*>& ENEMY, bool& isend, bool& isstoryend);
+void control(Map&, Player&, vector<Ground*>&, vector<Enemy*>&, bool&, bool&);
 void playMenu();
-void printStat(Player& player, Timer& timer, const int endTime);
-void spawnMushroom(Player& player, vector<Ground*>& ground_list, size_t index, vector<Enemy*>& enemy_list, Map& map);
-void groundCheck(vector<Ground*>& ground_list, Player& player);
+void playLevel(vector<Ground*>&, vector<Enemy*>&, Map&, const unsigned int, Player&, bool&);
+void printStat(Player&, Timer&, const int);
+void spawnMushroom(Player&, vector<Ground*>&, size_t, vector<Enemy*>&, Map&);
+void groundCheck(vector<Ground*>&, Player&);
 void storyMode();
-void openOrWrite(int lNumber, ifstream& file);
-void spawnCoin(Player& player, vector<Ground*>& ground_list, size_t index, vector<Enemy*>& enemy_list, Map& map);
-void pauseMenu(bool& isend, bool& isstoryend);
-void setStdCoords(Player& player);
+void openOrWrite(int, ifstream& file);
+void spawnCoin(Player&, vector<Ground*>&, size_t, vector<Enemy*>&, Map&);
+void pauseMenu(bool&, bool&);
+void setStdCoords(Player&);

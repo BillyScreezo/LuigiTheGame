@@ -1,5 +1,11 @@
+#include <Windows.h>
+#include <cmath>
+#include <ctime>
+#include <iostream>
+
 #include "Player.h"
 #include "Const.h"
+#include "Foo.h"
 
 bool Player::status() { return isStand; }
 
@@ -12,7 +18,7 @@ void Player::die(bool type)
 		sym = 'n';
 	}
 
-	 std::cout << '\a'; isStand = true;
+	std::cout << '\a'; isStand = true;
     --pLives;
 	health = 0;
 	width = pwidth;
@@ -58,6 +64,7 @@ Player::Player(float x, float y, int width, int height, float wspeed, float fspe
 	this->sym = sym;
 	this->map = &map;
 	this->ground_list = ground_list;
+	this->timeS = 0;
 	roundCoords();
 }
 
@@ -217,7 +224,7 @@ void Player::levelDown()
 	prevlevel = level;
 }
 
-bool Player::isEndLevel(vector<Ground*>& space, clock_t& t1)
+bool Player::isEndLevel(vector<Ground*>& space, unsigned t1)
 {
 	for (int i{ 0 }; i < static_cast<int>(space.size()); ++i)
 		if ((space[i]->getType() == 11) && iy + height >= space[i]->y1 && iy + height <= space[i]->y2 && (ix == space[i]->x1 || ix + width - 1 == space[i]->x1) && onground == true)

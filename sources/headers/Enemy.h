@@ -1,9 +1,11 @@
 #pragma once
+
+#include <vector>
+
 #include "Prototype.h"
 #include "Ground.h"
 #include "Player.h"
-#include <vector>
-#include "Const.h"
+
 // Уникальный идентификатор сущности
 // Необходимо обнулять на каждом level
 static int sID{ 0 };
@@ -58,7 +60,7 @@ enum class Interaction
 };
 
 using namespace std;
-class Enemy : public Prototype
+class Enemy final : public Prototype
 {
 private:
 	EnemyType m_type;      // Тип сущности
