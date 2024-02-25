@@ -39,7 +39,6 @@ public:
 	void takeStar(int);
 	void addScore(int);
 
-	virtual bool isDead() override;
 	void jump(std::vector<Ground*>&);
 	void jump(std::vector<Ground*>&, std::vector<Enemy*>&);
 

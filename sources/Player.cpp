@@ -49,8 +49,6 @@ bool Player::useStar()
 
 void Player::addScore(int score) { this->score += score; }
 
-bool Player::isDead() { return health == 0; }
-
 Player::Player(float x, float y, int width, int height, float wspeed, float fspeed, char sym, Map& map, std::vector<Ground*>& ground_list)
 {
 	this->x = x;
