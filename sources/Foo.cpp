@@ -525,7 +525,7 @@ void storyMode()
 	{
 		std::cout << "\nGame over!\n\n";
 		std::cout << "\nTotal score: " << player.getScore() << "\n\n";
-		system("pause");
+		_getch();
 	}
 	else
 	{
@@ -533,10 +533,10 @@ void storyMode()
 		{
 			std::cout << "\nYou have passed the story mode of the game, congratulations!\n\n";
 			std::cout << "\nTotal score: " << player.getScore() << "\n\n";
-			system("pause");
+			_getch();
 			system("cls");
 			std::cout << "\nTry also creating your own world with MapCreatorand playing in it!\n\n";
-			system("pause");
+			_getch();
 		}
 	}
 }
@@ -575,7 +575,7 @@ void playMenu()
 			if (!fin.is_open())
 			{
 				std::cout << "Error! This file doesn't exist!\n";
-				system("pause");
+				_getch();
 			}
 			else
 			{

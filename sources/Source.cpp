@@ -29,7 +29,7 @@ int main()
 			break;
 		default:
 			std::cout << "There is no action\n";
-			system("pause");
+			_getch();
 			system("cls");
 		}
 	}

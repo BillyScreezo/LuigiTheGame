@@ -26,7 +26,7 @@ Ground* addNewObject_g(int x1, int y1, int x2, int y2, size_t type, size_t range
 				if (atoi(buff) <= 0)
 				{
 					std::cout << "Enter number bigger than 0!\n";
-					system("pause");
+					_getch();
 				}
 			} while (atoi(buff) <= 0);
 			ground = new Ground(x1, x2, y1, y2, type, map, atoi(buff));
@@ -190,7 +190,7 @@ void interactMenu(std::vector<Ground*>& ground_list, std::vector<Enemy*>& enemy_
 				if (atoi(buff) <= 0)
 				{
 					std::cout << "Enter number bigger than 0!\n";
-					system("pause");
+					_getch();
 					system("cls");
 				}
 				else
@@ -200,7 +200,7 @@ void interactMenu(std::vector<Ground*>& ground_list, std::vector<Enemy*>& enemy_
 					if (atoi(buff) <= 0)
 					{
 						std::cout << "Enter number bigger than 0!\n";
-						system("pause");
+						_getch();
 						system("cls");
 					}
 					else
@@ -210,7 +210,7 @@ void interactMenu(std::vector<Ground*>& ground_list, std::vector<Enemy*>& enemy_
 						if (atoi(buff) < 0)
 						{
 							std::cout << "Enter number bigger than 0!\n";
-							system("pause");
+							_getch();
 							system("cls");
 						}
 						else
@@ -383,7 +383,7 @@ void interactMenu(std::vector<Ground*>& ground_list, std::vector<Enemy*>& enemy_
 							if (atoi(buff) <= 0)
 							{
 								std::cout << "Enter number bigger than 0!\n";
-								system("pause");
+								_getch();
 								system("cls");
 							}
 							else
@@ -393,7 +393,7 @@ void interactMenu(std::vector<Ground*>& ground_list, std::vector<Enemy*>& enemy_
 								if (atoi(buff) <= 0)
 								{
 									std::cout << "Enter number bigger than 0!\n";
-									system("pause");
+									_getch();
 									system("cls");
 								}
 								else
@@ -408,7 +408,7 @@ void interactMenu(std::vector<Ground*>& ground_list, std::vector<Enemy*>& enemy_
 											if (atoi(buff) <= 0)
 											{
 												std::cout << "Enter number bigger than 0!\n";
-												system("pause");
+												_getch();
 											}
 										} while (atoi(buff) <= 0);
 										ground_list[g_index]->setDiapasoneX(ground_list[g_index]->x1, ground_list[g_index]->x1 + atoi(buff));
@@ -528,7 +528,7 @@ void interactMenu(std::vector<Ground*>& ground_list, std::vector<Enemy*>& enemy_
 									{
 										system("cls");
 										std::cout << "This type doesn't exist\n";
-										system("pause");
+										_getch();
 									}
 								}
 								isend3 = true;
@@ -542,7 +542,7 @@ void interactMenu(std::vector<Ground*>& ground_list, std::vector<Enemy*>& enemy_
 					{
 						system("cls");
 						std::cout << "There is no enemy\n";
-						system("pause");
+						_getch();
 					}
 					break;
 				}
@@ -552,7 +552,7 @@ void interactMenu(std::vector<Ground*>& ground_list, std::vector<Enemy*>& enemy_
 			else
 			{
 				std::cout << "There are no objects\n";
-				system("pause");
+				_getch();
 			}
 			system("cls");
 			break;
@@ -614,7 +614,7 @@ void interactMenu(std::vector<Ground*>& ground_list, std::vector<Enemy*>& enemy_
 				{
 					system("cls");
 					std::cout << "There are no grounds\n";
-					system("pause");
+					_getch();
 				}
 				break;
 			case 1:
@@ -682,7 +682,7 @@ void interactMenu(std::vector<Ground*>& ground_list, std::vector<Enemy*>& enemy_
 				{
 					system("cls");
 					std::cout << "There are no enemies\n";
-					system("pause");
+					_getch();
 				}
 				break;
 			}
@@ -821,7 +821,7 @@ void mapCreator()
 				if (!fout.is_open())
 				{
 					std::cout << name + ".txt wasn't opened\n";
-					system("pause");
+					_getch();
 					system("cls");
 				}
 				else
@@ -893,7 +893,7 @@ void mapCreator()
 			if (!fin.is_open())
 			{
 				std::cout << "This file doesn't exist!\n";
-				system("pause");
+				_getch();
 				system("cls");
 			}
 			else
