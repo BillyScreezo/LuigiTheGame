@@ -1,7 +1,6 @@
 #pragma once
 
-class Timer final
-{
+class Timer final {
 private:
 	unsigned time_start;
 	unsigned time_end;

@@ -51,7 +51,7 @@ void Player::addScore(int score) { this->score += score; }
 
 bool Player::isDead() { return health == 0; }
 
-Player::Player(float x, float y, int width, int height, float wspeed, float fspeed, char sym, Map& map, vector<Ground*>& ground_list)
+Player::Player(float x, float y, int width, int height, float wspeed, float fspeed, char sym, Map& map, std::vector<Ground*>& ground_list)
 {
 	this->x = x;
 	this->y = y;
@@ -68,7 +68,7 @@ Player::Player(float x, float y, int width, int height, float wspeed, float fspe
 	roundCoords();
 }
 
-void Player::physic(vector<Enemy*>& enemy_list, bool mode)
+void Player::physic(std::vector<Enemy*>& enemy_list, bool mode)
 {
 	roundCoords();
 	if (ix < 0) x = 0.0f;
@@ -135,7 +135,7 @@ void Player::physic(vector<Enemy*>& enemy_list, bool mode)
 
 bool Player::checkDown() { return y >= gDown; }
 
-void Player::jump(vector<Ground*>& ground_list)
+void Player::jump(std::vector<Ground*>& ground_list)
 {
 	bool isbreak = false;
 	if (onground && !underground)
@@ -159,7 +159,7 @@ void Player::jump(vector<Ground*>& ground_list)
 	isjump = false;
 }
 
-void Player::jump(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list)
+void Player::jump(std::vector<Ground*>& ground_list, std::vector<Enemy*>& enemy_list)
 {
 	roundCoords();
 	physic(enemy_list, 0);
@@ -224,7 +224,7 @@ void Player::levelDown()
 	prevlevel = level;
 }
 
-bool Player::isEndLevel(vector<Ground*>& space, unsigned t1)
+bool Player::isEndLevel(std::vector<Ground*>& space, unsigned t1)
 {
 	for (int i{ 0 }; i < static_cast<int>(space.size()); ++i)
 		if ((space[i]->getType() == 11) && iy + height >= space[i]->y1 && iy + height <= space[i]->y2 && (ix == space[i]->x1 || ix + width - 1 == space[i]->x1) && onground == true)

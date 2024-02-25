@@ -142,7 +142,7 @@ bool Enemy::isDead()
 // Сравнение двух сущностей
 bool Enemy::operator==(Enemy& other) { return this->ID == other.ID; }
 
-Enemy::Enemy(float x, float y, EnemyType type, Map& map, vector<Ground*>& space, bool canFall, bool move)
+Enemy::Enemy(float x, float y, EnemyType type, Map& map, std::vector<Ground*>& space, bool canFall, bool move)
 {
 	// Общая инициализация
 	score = 0;
@@ -321,7 +321,7 @@ Interaction Enemy::interaction(Player& player)
 	return Interaction::NOT;
 }
 
-void Enemy::processInteraction(Player& player, Interaction type, vector<Ground*>& ground_list)
+void Enemy::processInteraction(Player& player, Interaction type, std::vector<Ground*>& ground_list)
 {
 	// Игрок не взаимодействует с DEADBODY и PFIRE
 	switch (type)
@@ -491,7 +491,7 @@ void Enemy::processInteraction(Player& player, Interaction type, vector<Ground*>
 	case Interaction::NOT: return; break;
 	}
 }
-void Enemy::throwFireB(vector<Enemy*>& ENEMY)
+void Enemy::throwFireB(std::vector<Enemy*>& ENEMY)
 {
 	float fX = x - 1;
 	float fY = y;
@@ -499,7 +499,7 @@ void Enemy::throwFireB(vector<Enemy*>& ENEMY)
 	ENEMY.push_back(fire);
 }
 
-void Enemy::physic(vector<Ground*>& space, Player& player)
+void Enemy::physic(std::vector<Ground*>& space, Player& player)
 {
 
 	if (m_type == EnemyType::DEADBODY)
@@ -752,7 +752,7 @@ void Enemy::physic(vector<Ground*>& space, Player& player)
 	}
 }
 
-void Enemy::enemyInteraction(vector<Enemy*>& all, Player& player)
+void Enemy::enemyInteraction(std::vector<Enemy*>& all, Player& player)
 {
 	if (isSee==false || m_type == EnemyType::BFIRE || m_type == EnemyType::BOSS || m_type == EnemyType::DEADBODY || m_type == EnemyType::COIN || m_type == EnemyType::SFIRE
 		|| m_type == EnemyType::STAR || m_type == EnemyType::MUSHROOM || m_type == EnemyType::LIVEMUSHROOM || m_type == EnemyType::FLOWER
@@ -975,7 +975,7 @@ void Enemy::reset()
 	}
 }
 
-void enemyModule(vector<Enemy*>& ENEMY, Player& player, vector<Ground*>& GROUND, Map& map, WorkType type)
+void enemyModule(std::vector<Enemy*>& ENEMY, Player& player, std::vector<Ground*>& GROUND, Map& map, WorkType type)
 {
 	if (type == WorkType::PTHROW)
 	{
@@ -1063,7 +1063,7 @@ void enemyModule(vector<Enemy*>& ENEMY, Player& player, vector<Ground*>& GROUND,
 
 // Проверка всех врагов
 // Если враг мёрт - удалить его
-void enemyCheckAndClear(vector<Enemy*>& all)
+void enemyCheckAndClear(std::vector<Enemy*>& all)
 {
 	for (int i{ 0 }; i < static_cast<int>(all.size()); ++i)
 	{

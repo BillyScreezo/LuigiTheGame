@@ -13,8 +13,7 @@ static int sID{ 0 };
 class Player;
 
 // Тип сущности
-enum class EnemyType
-{
+enum class EnemyType {
 	// Обычные враги
 	// Гриб
 	GOOMBA,
@@ -51,17 +50,14 @@ enum class EnemyType
 };
 
 // Вид взаимодействия сущ
-enum class Interaction
-{
+enum class Interaction {
 	ONX,
 	ONY,
 	ONYD,
 	NOT
 };
 
-using namespace std;
-class Enemy final : public Prototype
-{
+class Enemy final : public Prototype {
 private:
 	EnemyType m_type;      // Тип сущности
 	bool m_move;           // Направление движения, true - right/up, f - left/down
@@ -78,7 +74,6 @@ private:
 	// Сравнение двух сущностей
 	bool operator==(Enemy&);
 
-
 	void inVision();
 
 public:
@@ -90,11 +85,11 @@ public:
 	// Дружественна ли сущность
 	bool isFriendF();
 
-	Enemy(float, float, EnemyType, Map&, vector<Ground*>&, bool canFall = true, bool move = false);
+	Enemy(float, float, EnemyType, Map&, std::vector<Ground*>&, bool canFall = true, bool move = false);
 	Enemy(float, float, Map&);
 
 	// MapC fun
-	void setCoord(float x, float y);
+	void setCoord(float, float);
 	size_t getType();
 
 	void setType(EnemyType);
@@ -102,52 +97,37 @@ public:
 	virtual void die(bool type = true) override;
 
 	// Перемещение сущности при движении игрока
-	void moveR(float wspeed);
-
-
+	void moveR(float);
 
 	// Мертва ли сущность
 	virtual bool isDead() override;
 
-	void throwFireB(vector<Enemy*>& ENEMY);
+	void throwFireB(std::vector<Enemy*>&);
 
 	void reset();
 
-
 	// Геттеры координат
-	float getX() { return x; }
-	float getY() { return y; }
-
-
+	inline float getX() { return x; }
+	inline float getY() { return y; }
 
 	// Привести сущность в движение
 	void move();
 
-
 	// Взаимодействие сущностей друг с другом
-	void enemyInteraction(vector<Enemy*>&, Player&);
+	void enemyInteraction(std::vector<Enemy*>&, Player&);
 
 	// Определение типа взаимодействия игрока и сущности
-	Interaction interaction(Player& player);
+	Interaction interaction(Player&);
 
 	// Обработка взаимодействия игрока и сущности
-	void processInteraction(Player&, Interaction, vector<Ground*>&);
-
-
+	void processInteraction(Player&, Interaction, std::vector<Ground*>&);
 
 	virtual void putOnMap() override;
 
-
-
-
-	void physic(vector<Ground*>& space, Player& player);
-
-
+	void physic(std::vector<Ground*>&, Player&);
 };
 
-
-enum class WorkType
-{
+enum class WorkType {
 	ENABLEALL,
 	PUTONMAP,
 	MOVEL,
@@ -160,6 +140,6 @@ enum class WorkType
 
 // Проверка всех врагов
 // Если враг мёрт - удалить его
-void enemyCheckAndClear(vector<Enemy*>&);
+void enemyCheckAndClear(std::vector<Enemy*>&);
 
-void enemyModule(vector<Enemy*>&, Player&, vector<Ground*>&, Map& map, WorkType);
+void enemyModule(std::vector<Enemy*>&, Player&, std::vector<Ground*>&, Map&, WorkType);

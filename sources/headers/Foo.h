@@ -10,17 +10,17 @@
 class Player;
 class Enemy;
 
-void SetCur(int x, int y);
+void SetCur(int, int);
 void HideCursor();
 time_t getTime();
-void control(Map&, Player&, vector<Ground*>&, vector<Enemy*>&, bool&, bool&);
+void control(Map&, Player&, std::vector<Ground*>&, std::vector<Enemy*>&, bool&, bool&);
 void playMenu();
-void playLevel(vector<Ground*>&, vector<Enemy*>&, Map&, const unsigned int, Player&, bool&);
+void playLevel(std::vector<Ground*>&, std::vector<Enemy*>&, Map&, const unsigned int, Player&, bool&);
 void printStat(Player&, Timer&, const int);
-void spawnMushroom(Player&, vector<Ground*>&, size_t, vector<Enemy*>&, Map&);
-void groundCheck(vector<Ground*>&, Player&);
+void spawnMushroom(Player&, std::vector<Ground*>&, size_t, std::vector<Enemy*>&, Map&);
+void groundCheck(std::vector<Ground*>&, Player&);
 void storyMode();
-void openOrWrite(int, ifstream& file);
-void spawnCoin(Player&, vector<Ground*>&, size_t, vector<Enemy*>&, Map&);
+void openOrWrite(int, std::ifstream&);
+void spawnCoin(Player&, std::vector<Ground*>&, size_t, std::vector<Enemy*>&, Map&);
 void pauseMenu(bool&, bool&);
 void setStdCoords(Player&);

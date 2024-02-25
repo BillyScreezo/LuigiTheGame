@@ -11,8 +11,7 @@ class Enemy;
 
 extern int pLives;
 
-class Player final : public Prototype
-{
+class Player final : public Prototype {
 private:
 	bool isStand{ false };
 	bool star{ false };
@@ -26,11 +25,11 @@ public:
 	bool status();
 	bool isjump = false, ctrl = true;
 	bool ismove_r = true, ismove_l = true, onground = false, underground = false;
-	bool side = 0;
+	bool side{ 0 };
 	std::vector<Ground*> ground_list;
-	Player(float x, float y, int width, int height, float wspeed, float fspeed, char sym, Map& map, std::vector<Ground*>& ground_list);
+	Player(float, float, int, int, float, float, char, Map&, std::vector<Ground*>&);
 
-	void physic(std::vector<Enemy*>& enemy_list, bool mode);
+	void physic(std::vector<Enemy*>&, bool);
 	virtual void die(bool type = true) override;
 	void resetPlayer();
 	void resetScore();
@@ -41,8 +40,8 @@ public:
 	void addScore(int);
 
 	virtual bool isDead() override;
-	void jump(std::vector<Ground*>& ground_list);
-	void jump(std::vector<Ground*>& ground_list, std::vector<Enemy*>& enemy_list);
+	void jump(std::vector<Ground*>&);
+	void jump(std::vector<Ground*>&, std::vector<Enemy*>&);
 
 	bool checkDown();
 
@@ -50,5 +49,5 @@ public:
 	void levelUp();
 	void levelDown();
 
-	bool isEndLevel(std::vector<Ground*>& space, unsigned t1);
+	bool isEndLevel(std::vector<Ground*>&, unsigned);
 };

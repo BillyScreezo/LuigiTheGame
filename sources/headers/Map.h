@@ -1,14 +1,13 @@
 #pragma once
 
-class Map
-{
+class Map final {
 private:
 	int width;
 	int height;
 public:
 	char** field;
 	Map();
-	Map(int width, int height);
+	Map(int, int);
 	void fillSpace();
 	void printMap();
 	int getWidth();

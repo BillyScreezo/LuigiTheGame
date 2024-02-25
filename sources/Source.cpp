@@ -6,7 +6,7 @@
 #include "MapCreator.h"
 
 extern int pLives = 3;
-using namespace std;
+
 int main()
 {
 	HideCursor();
@@ -14,7 +14,7 @@ int main()
 	while (!isend)
 	{
 		SetCur(0, 0);
-		cout << "Main Menu\n\n1 - Play\n2 - Map Creator\n3 - Exit\n";
+		std::cout << "Main Menu\n\n1 - Play\n2 - Map Creator\n3 - Exit\n";
 		switch (_getch())
 		{
 		case '1':
@@ -28,7 +28,7 @@ int main()
 			isend = true;
 			break;
 		default:
-			cout << "There is no action\n";
+			std::cout << "There is no action\n";
 			system("pause");
 			system("cls");
 		}
