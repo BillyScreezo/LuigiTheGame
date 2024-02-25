@@ -32,7 +32,7 @@ public:
 	Player(float x, float y, int width, int height, float wspeed, float fspeed, char sym, Map& map, vector<Ground*>& ground_list);
 
 	void physic(vector<Enemy*>& enemy_list, bool mode);
-	virtual void die() override;
+	virtual void die(bool type = true) override;
 	void resetPlayer();
 	void resetScore();
 

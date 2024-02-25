@@ -97,7 +97,7 @@ public:
 
 	void setType(EnemyType);
 
-	void die(bool type = true);
+	virtual void die(bool type = true) override;
 
 	// Перемещение сущности при движении игрока
 	void moveR(float wspeed);

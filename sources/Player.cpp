@@ -3,9 +3,16 @@
 
 bool Player::status() { return isStand; }
 
-void Player::die() 
+void Player::die(bool type) 
 { 
-	sym = 'z'; std::cout << '\a'; isStand = true;
+	if (type) {
+		sym = 'z';
+	}
+	else {
+		sym = 'n';
+	}
+
+	 std::cout << '\a'; isStand = true;
     --pLives;
 	health = 0;
 	width = pwidth;

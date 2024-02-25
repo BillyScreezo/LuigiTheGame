@@ -1,6 +1,6 @@
 #include "Map.h"
-
-using namespace std;
+#include <iostream>
+#include <cstring>
 
 Map::Map()
 {
@@ -29,7 +29,7 @@ void Map::fillSpace()
 void Map::printMap()
 {
 	for (int i = 0; i < height; i++)
-		cout << field[i] << endl;
+		std::cout << field[i] << std::endl;
 }
 int Map::getWidth()
 {
