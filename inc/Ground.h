@@ -1,8 +1,12 @@
 #pragma once
+
 #include <iostream>
 #include <vector>
+
 #include "Map.h"
+
 using namespace std;
+
 class Ground // класс типа "поверхность"
 {
 private:

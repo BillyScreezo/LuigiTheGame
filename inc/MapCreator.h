@@ -1,13 +1,14 @@
 #pragma once
+
 #include "Map.h"
 #include "Ground.h"
 #include "Enemy.h"
 #include "Foo.h"
+
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <cstring>
-#include <conio.h>
 #include <vector>
 #include <sys/stat.h>
 #include <limits>

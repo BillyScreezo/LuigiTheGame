@@ -2,6 +2,8 @@
 #include "Foo.h"
 #include "MapCreator.h"
 #include <vector>
+
+#include <iostream>
 extern int pLives = 3;
 using namespace std;
 int main()
@@ -12,7 +14,7 @@ int main()
 	{
 		SetCur(0, 0);
 		cout << "Main Menu\n\n1 - Play\n2 - Map Creator\n3 - Exit\n";
-		switch (_getch())
+		switch (getchar())
 		{
 		case '1':
 			playMenu();
@@ -26,8 +28,6 @@ int main()
 			break;
 		default:
 			cout << "There is no action\n";
-			system("pause");
-			system("cls");
 		}
 	}
 	return 0;

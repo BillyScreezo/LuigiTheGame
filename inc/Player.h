@@ -5,7 +5,6 @@
 #include "Enemy.h"
 #include "Foo.h"
 #include <cmath>
-#include <Windows.h>
 #include <ctime>
 #include <vector>
 

@@ -1,18 +1,25 @@
 #pragma once
+
 #include <iostream>
-#include <cstring>
-class Map
-{
+#include <memory>
+#include <vector>
+
+#include "Object.h"
+
+class Map {
 private:
-	int width;
-	int height;
+	uint32_t width;
+	uint32_t height;
+    std::vector<Object> obj_list;
 public:
-	char** field;
+    char **field;
 	Map();
-	Map(int width, int height);
+	Map(uint32_t width, uint32_t height);
 	void fillSpace();
+    void makePicture();
 	void printMap();
 	int getWidth();
 	int getHeight();
+    void putObjectOnMap(Object &obj);
 	~Map();
 };

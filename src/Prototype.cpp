@@ -1,4 +1,6 @@
 #include "Prototype.h"
+#include <cmath>
+
 void Prototype::putOnMap()
 {
     roundCoords();

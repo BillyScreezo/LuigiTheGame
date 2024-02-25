@@ -8,11 +8,14 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project(LuigiTheGame)
 
+set(LIB_DIR "")
+
+set(EXECUTABLE_NAME ${PROJECT_NAME})
+
 if (WIN32)
-    # set(EXECUTABLE_NAME ${PROJECT_NAME}.exe)
     # TODO: add Debug and Release configuration for MSVC compiler
 elseif (UNIX)
-    # set(EXECUTABLE_NAME ${PROJECT_NAME})
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -lncurses")
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g")
     endif()
@@ -20,32 +23,43 @@ elseif (UNIX)
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os")
     endif()
+
+    find_package(Curses REQUIRED)
+
+    set(LIB_DIR 
+        ${LIB_DIR}
+        ${CURSES_INCLUDE_DIR}
+    )
 else ()
     message(FATAL_ERROR "Unsupported system")
 endif()
 
-set(EXECUTABLE_NAME ${PROJECT_NAME})
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 add_executable(${EXECUTABLE_NAME}
-    main.cpp
-    # ${SRC_DIR}/Enemy.cpp
-    # ${SRC_DIR}/Foo.cpp
-    # ${SRC_DIR}/Ground.cpp
-    # ${SRC_DIR}/Levels.cpp
-    # ${SRC_DIR}/Map.cpp
-    # ${SRC_DIR}/MapCreator.cpp
-    # ${SRC_DIR}/Player.cpp
-    # ${SRC_DIR}/Prototype.cpp
-    # ${SRC_DIR}/Source.cpp
-    # ${SRC_DIR}/Timer.cpp
+    # main.cpp
+    ${SRC_DIR}/Object.cpp
+    ${SRC_DIR}/Enemy.cpp
+    ${SRC_DIR}/Foo.cpp
+    ${SRC_DIR}/Ground.cpp
+    ${SRC_DIR}/Levels.cpp
+    ${SRC_DIR}/Map.cpp
+    ${SRC_DIR}/MapCreator.cpp
+    ${SRC_DIR}/Player.cpp
+    ${SRC_DIR}/Prototype.cpp
+    ${SRC_DIR}/Source.cpp
+    ${SRC_DIR}/Timer.cpp
 )
 
 # TODO: add OpenMP lib
 target_include_directories(${EXECUTABLE_NAME}
     PUBLIC
     ${INC_DIR}
+    ${LIB_DIR}
 )
+
+if (UNIX)
+    target_link_libraries(${EXECUTABLE_NAME} PUBLIC ${CURSES_LIBRARIES})
+endif()
 
 # TODO: add executable size output
 add_custom_command(TARGET ${EXECUTABLE_NAME}

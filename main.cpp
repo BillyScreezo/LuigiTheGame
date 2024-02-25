@@ -1,9 +1,18 @@
 #include <iostream>
+#include <memory>
+
+#include "Map.h"
+#include "Drawing.h"
 
 int main()
 {
-    std::cout << "Hello, world!\r\n";
-    getchar();
+    std::unique_ptr<Map> map(new Map);
+
+    while (1) {
+        map->fillSpace();
+        map->printMap();
+    }
+
     return 0;
 }
 

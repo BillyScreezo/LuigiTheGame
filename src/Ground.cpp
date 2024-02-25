@@ -1,4 +1,6 @@
- #include "Ground.h"
+#include "Ground.h"
+
+#include <cmath>
 
 Ground::Ground()
 {

@@ -4,6 +4,8 @@
 #include "Foo.h"
 #include "Const.h"
 
+#include "Drawing.h"
+
 void playLevel(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map& map, const unsigned int endTime, Player &player, bool& isstoryend)
 {
 	bool isend = false, isgameend = false;
@@ -20,7 +22,7 @@ void playLevel(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map& ma
 
 	while (!isend)
 	{
-		SetCur(0, 0);
+		SetConsoleCursor(0, 0);
 
 		map.fillSpace();
 
@@ -42,7 +44,7 @@ void playLevel(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map& ma
 		groundCheck(ground_list, player);
 
 		printStat(player, timer, endTime);
-		Sleep(15);
+		ConsoleSleep(15);
 
 		t2 = clock();
 		if (player.checkDown() || (player.isEndLevel(ground_list, t1) && t2 - t1 >= 250))
@@ -73,10 +75,10 @@ void playLevel(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map& ma
 			cout << "\nLives: " << pLives << ' ';
 			cout << "\nScore: " << player.getScore();
 			cout << "\n        ";
-			Sleep(10);
+			ConsoleSleep(10);
 		}
 		
-		Sleep(2000);
+		ConsoleSleep(2000);
 	}
-	system("cls");
+    ClearConsoleWindow();
 }

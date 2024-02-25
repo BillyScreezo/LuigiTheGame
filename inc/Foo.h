@@ -1,15 +1,17 @@
 #pragma once
-#include <Windows.h>
+
 #include <ctime>
 #include <string>
 #include <vector>
 #include <cstring>
-#include <conio.h>
+
 #include "Ground.h"
 #include "Map.h"
 #include "Timer.h"
+
 class Player;
 class Enemy;
+
 void SetCur(int x, int y);
 void HideCursor();
 time_t getTime();
