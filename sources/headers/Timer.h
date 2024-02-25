@@ -9,7 +9,7 @@ private:
 public:
 	Timer() : time_start{ 0 }, time_end{ 0 }, delay{ 0 }, secCounter{ 0 } {};
 	inline void erase() {time_start = 0; time_end = 0; delay = 0; secCounter = 0;}
+	inline unsigned get() { return secCounter; }
 	void set();
 	void check();
-	inline unsigned get() { return secCounter; }
 };

@@ -10,7 +10,6 @@ protected:
 	int health{ 0 };
 	int score{ 0 };
 	unsigned m_time{ 0 };
-
 	bool isStand{ true };
 	
 	void roundCoords();

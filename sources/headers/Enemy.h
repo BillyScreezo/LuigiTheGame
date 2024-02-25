@@ -68,8 +68,7 @@ private:
 	int position;          // Текущее состояние для SFIRE(в какой позиции находится в данный момент)
 
 	// Сравнение двух сущностей
-	inline bool operator==(Enemy& other) { return this->ID == other.ID; }
-
+	inline bool operator==(const Enemy& other) { return this->ID == other.ID; }
 	void inVision();
 
 public:
@@ -78,54 +77,41 @@ public:
 	// Необходимо обнулять на каждом level
 	static int sID;
 
-	// Получение статуса сущности(активна/неактивна)
-	inline bool status() { return isStand; }
-
-	inline bool inVis() { return isSee; }
-
-	// Получение статуса сущности(дружественна/враждебна)
-	inline bool isFriendF() { return isFriend; }
-
 	Enemy(float, float, EnemyType, Map&, std::vector<Ground*>&, bool canFall = true, bool move = false);
 	Enemy(float, float, Map&);
 
-	// MapC fun
-	void setCoord(float, float);
-	size_t getType();
-
-	void setType(EnemyType);
-
-	virtual void die(bool type = true) override;
-
+	// Получение статуса сущности(активна/неактивна)
+	inline bool status() { return isStand; }
+	inline bool inVis() { return isSee; }
+	// Получение статуса сущности(дружественна/враждебна)
+	inline bool isFriendF() { return isFriend; }
 	// Смещение сущности при движении игрока Right
 	inline void moveR(float wspeed) { x -= wspeed; }
-
-	// Мертва ли сущность
-	virtual bool isDead() override;
-
-	void throwFireB(std::vector<Enemy*>&);
-
-	void reset();
-
+	// Переактивация сущности(вкл./выкл. физики)
+	inline void move() { isStand = !isStand; }
 	// Геттеры координат
 	inline float getX() { return x; }
 	inline float getY() { return y; }
 
-	// Переактивация сущности(вкл./выкл. физики)
-	inline void move() { isStand = !isStand; }
-
+	// MapC fun
+	void setCoord(float, float);
+	void setType(EnemyType);
+	void throwFireB(std::vector<Enemy*>&);
+	void reset();
+	void physic(std::vector<Ground*>&, Player&);
 	// Взаимодействие сущностей друг с другом
 	void enemyInteraction(std::vector<Enemy*>&, Player&);
-
-	// Определение типа взаимодействия игрока и сущности
-	Interaction interaction(Player&);
-
 	// Обработка взаимодействия игрока и сущности
 	void processInteraction(Player&, Interaction, std::vector<Ground*>&);
 
-	virtual void putOnMap() override;
+	// Определение типа взаимодействия игрока и сущности
+	Interaction interaction(Player&);
+	size_t getType();
 
-	void physic(std::vector<Ground*>&, Player&);
+	// Мертва ли сущность
+	virtual bool isDead() override;
+	virtual void die(bool type = true) override;
+	virtual void putOnMap() override;
 };
 
 enum class WorkType {
