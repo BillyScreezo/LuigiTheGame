@@ -5,34 +5,54 @@
 
 int Enemy::sID = 0;
 
-void Enemy::putOnMap()
-{
+void Enemy::putOnMap() {
+
 	roundCoords();
-	if (m_type == EnemyType::SFIRE)
-	{
+
+	if (m_type == EnemyType::SFIRE) {
 		bool cSX{ false };
 		bool cSY{ false };
 		bool cEX{ false };
 		bool cEY{ false };
-		int start_x = ix - height, end_x = ix + height, start_y = iy - height, end_y = iy + height;
-		if (iy < 0) { start_y = 0; cSY = true; }
-		if (end_y > map->getHeight() - 1) { end_y = map->getHeight() - 1; cEY = true; }
-		if (end_x > map->getWidth() - 1) { end_x = map->getWidth() - 1; cEX = true; }
-		if (ix < 0) { start_x = 0; cSX = true; }
-		if (ix < map->getWidth())
-		{
-			if (!cSX) start_x = ix;
-			if (!cSY) start_y = iy;
-			if (!cEX) end_x = ix + height;
-			if (!cEY) end_y = iy + height;
-			for (int i = 0; i < (end_y - start_y); i++)
-			{
-				for (int j = 0; j < (end_x - start_x); j++)
-				{
-					if (i == j)
-					{
-						switch (position)
-						{
+
+		auto start_x{ ix - height };
+		auto end_x{ ix + height };
+		auto start_y{ iy - height };
+		auto end_y{ iy + height };
+
+		if (iy < 0) { 
+			start_y = 0; 
+			cSY = true; 
+		}
+		if (end_y > map->getHeight() - 1) { 
+			end_y = map->getHeight() - 1; 
+			cEY = true; 
+		}
+		if (end_x > map->getWidth() - 1) { 
+			end_x = map->getWidth() - 1; 
+			cEX = true; 
+		}
+		if (ix < 0) { 
+			start_x = 0; 
+			cSX = true; 
+		}
+		if (ix < map->getWidth()) {
+			if (!cSX) {
+				start_x = ix;
+			}
+			if (!cSY) {
+				start_y = iy;
+			}
+			if (!cEX) {
+				end_x = ix + height;
+			}
+			if (!cEY) {
+				end_y = iy + height;
+			}
+			for (int i = 0; i < (end_y - start_y); i++) {
+				for (int j = 0; j < (end_x - start_x); j++) {
+					if (i == j) {
+						switch (position) {
 						case 0: map->field[start_y - i][start_x] = sym; break;
 						case 1: map->field[start_y - i][start_x + j] = sym; break;
 						case 2: map->field[start_y][start_x + j] = sym; break;
@@ -48,28 +68,36 @@ void Enemy::putOnMap()
 
 		}
 	}
-	else if (m_type == EnemyType::DEADBODY)
-	{
-		int tmp = score;
+	else if (m_type == EnemyType::DEADBODY) {
+
+		auto tmp{ score };
 		int len{ 0 };
-		while (tmp != 0)
-		{
+
+		while (tmp != 0) {
 			++len;
 			tmp /= 10;
 		}
+
 		tmp = score;
 
-		int start_x = ix, end_x = ix + len, start_y = iy;
-		if (iy < 0) start_y = 0;
-		if (end_x > map->getWidth() - 1) end_x = map->getWidth() - 1;
-		if (ix < 0) start_x = 0;
-		if (ix < map->getWidth())
-		{
+		auto start_x{ ix };
+		auto end_x{ ix + len };
+		auto start_y{ iy };
+
+		if (iy < 0) {
+			start_y = 0;
+		}
+		if (end_x > map->getWidth() - 1) {
+			end_x = map->getWidth() - 1;
+		}
+		if (ix < 0) {
+			start_x = 0;
+		}
+		if (ix < map->getWidth()) {
 			int tmpSym;
-			for (int i{ end_x }; i > start_x; --i)
+			for (auto i{ end_x }; i > start_x; --i)
 			{
-				switch (tmp % 10)
-				{
+				switch (tmp % 10) {
 				case 0: tmpSym = '0'; break;
 				case 1: tmpSym = '1'; break;
 				case 2: tmpSym = '2'; break;
@@ -83,69 +111,74 @@ void Enemy::putOnMap()
 				}
 				map->field[start_y][i] = tmpSym;
 				tmp /= 10;
-
 			}
 		}
 	}
-	else
-	{
-		int start_x = ix, end_x = ix + width, start_y = iy, end_y = iy + height;
-		if (iy < 0) start_y = 0;
-		else start_y = iy;
-		if (iy + height > map->getHeight() - 1) end_y = map->getHeight() - 1;
-		else end_y = iy + height;
-		if (ix + width > map->getWidth() - 1) end_x = map->getWidth() - 1;
-		else end_x = ix + width;
-		if (ix < 0) start_x = 0;
-		if (ix < map->getWidth())
-		{
-			for (int i = start_y; i < end_y; i++)
-				for (int j = start_x; j < end_x; j++)
+	else {
+		auto start_x{ ix };
+		auto end_x{ ix + width };
+		auto start_y{ iy };
+		auto end_y{ iy + height };
+
+		if (iy < 0) {
+			start_y = 0;
+		}
+		else {
+			start_y = iy;
+		}
+
+		if (iy + height > map->getHeight() - 1) {
+			end_y = map->getHeight() - 1;
+		}
+		else {
+			end_y = iy + height;
+		}
+
+		if (ix + width > map->getWidth() - 1) {
+			end_x = map->getWidth() - 1;
+		}
+		else {
+			end_x = ix + width;
+		}
+
+		if (ix < 0) { 
+			start_x = 0; 
+		}
+
+		if (ix < map->getWidth()) {
+			for (auto i = start_y; i < end_y; i++) {
+				for (auto j = start_x; j < end_x; j++) {
 					map->field[i][j] = sym;
+				}
+			}
 		}
 	}
 }
 
-// Переактивация сущности(вкл./выкл. физики)
-void Enemy::move(){isStand = !isStand;}
-
-// Получение статуса сущности(активна/неактивна)
-bool Enemy::status() { return isStand; }
-
-bool Enemy::inVis() { return isSee; }
-
-// Получение статуса сущности(дружественна/враждебна)
-bool Enemy::isFriendF() { return isFriend; }
-
-// Смещение сущности при движении игрока Right
-void Enemy::moveR(float wspeed) { x -= wspeed;}
-
 // Получение статуса сущности(alive/dead)
-bool Enemy::isDead()
-{
+bool Enemy::isDead() {
 	// Если сущность НЕ убиваема, или не тронута
-	if (health != 0)
+	if (health != 0) {
 		return false;
+	}
 	// Если сущность умерла сама
-	else if (health == 0 && m_type != EnemyType::DEADBODY)
+	else if (health == 0 && m_type != EnemyType::DEADBODY) {
 		return true;
+	}
 	// Если сущность убита игроком
-	else
-	{
+	else {
 		// Вывод score сущности в течение timer
-		const int timer = 1000;
-		if (clock() - m_time >= timer)
+		constexpr int timer{ 1000 };
+		if (clock() - m_time >= timer) {
 			return true;
-		else
+		}
+		else {
 			return false;
+		}
 	}
 }
 
-// Сравнение двух сущностей
-bool Enemy::operator==(Enemy& other) { return this->ID == other.ID; }
-
-Enemy::Enemy(float x, float y, EnemyType type, Map& map, std::vector<Ground*>& space, bool canFall, bool move)
-{
+Enemy::Enemy(float x, float y, EnemyType type, Map& map, std::vector<Ground*>& space, bool canFall, bool move) {
 	// Общая инициализация
 	score = 0;
 	yU = 0;
@@ -163,54 +196,53 @@ Enemy::Enemy(float x, float y, EnemyType type, Map& map, std::vector<Ground*>& s
 	// Тип и характеристики
 	m_type = type;
 	setType(m_type);
-	if (m_type == EnemyType::PFIRE)
-	{
+	if (m_type == EnemyType::PFIRE) {
 		isStand = false;
 		isSee = true;
 	}
-	else
+	else {
 		isStand = true;
+	}
 
 	// Особенности
 	m_move = move;
 	this->canFall = canFall;
 	ID = sID++;
 
-
 	// Определение Ground, на котором находится Enemy
-	if (!(m_type == EnemyType::SFIRE || m_type == EnemyType::PLANT || m_type == EnemyType::BOSS))
-	{
-		const int size = static_cast<int>(space.size());
+	if (!(m_type == EnemyType::SFIRE || m_type == EnemyType::PLANT || m_type == EnemyType::BOSS)) {
+		const auto size = space.size();
 		// Последний(подходящий) Ground
 		int last{ -1 };
 		// Число "частей" Enemy, которые находятся на проверяемом Ground
 		bool member{ false };
 		// Нижняя точка Enemy
-		int downDot = iy + height - 1;
+		const auto downDot{ iy + height - 1 };
 		// Проход по всем Ground
-		for (int g{ 0 }; g < size; ++g)
-		{
+		for (auto g{ 0 }; g < size; ++g) {
 			// Определение общих частей Enemy и Ground по X
-			for (int i{ ix }; i <= ix + width - 1; ++i)
-				if ((i >= space[g]->x1) && (i <= space[g]->x2) && (downDot <= space[g]->y1))
-				{
+			for (auto i{ ix }; i <= ix + width - 1; ++i) {
+				if ((i >= space[g]->x1) && (i <= space[g]->x2) && (downDot <= space[g]->y1)) {
 					member = true;
 					break;
 				}
+			}
 
-			if (!member) continue;
-			else
-			{
+			if (!member) {
+				continue;
+			}
+			else {
 				// Если первый(подходящий)
-				if (last == -1)
+				if (last == -1) {
 					last = g;
+				}
 
 				// Сравнение last и текущего
 				// Какой Ground подходит больше
-				else
-				{
-					if (space[g]->y1<space[last]->y1)
+				else {
+					if (space[g]->y1 < space[last]->y1) {
 						last = g;
+					}
 				}
 
 			}
@@ -223,8 +255,7 @@ Enemy::Enemy(float x, float y, EnemyType type, Map& map, std::vector<Ground*>& s
 
 
 
-Enemy::Enemy(float x, float y, Map& map)
-{
+Enemy::Enemy(float x, float y, Map& map) {
 	this->x = x;
 	this->y = y;
 	this->map = &map;
@@ -239,10 +270,8 @@ Enemy::Enemy(float x, float y, Map& map)
 // Смерть  сущности
 // true -  сущность умерла из-за игрока, игрок получает очки
 // false - сущность умерла самостоятельно, игрок НЕ получает очки
-void Enemy::die(bool type)
-{
-	if (type)
-	{
+void Enemy::die(bool type) {
+	if (type) {
 		m_type = EnemyType::DEADBODY;
 		m_time = clock();
 	}
@@ -250,54 +279,51 @@ void Enemy::die(bool type)
 	health = 0;
 }
 
-void Enemy::inVision()
-{
-	if ((x >= 0) && (x <= 120))
+void Enemy::inVision() {
+	if ((x >= 0) && (x <= 120)) {
 		isSee = true;
+	}
 }
 
 // Определение типа взаимодействия Enemy и Player
-Interaction Enemy::interaction(Player& player)
-{
+Interaction Enemy::interaction(Player& player) {
 	// Player не взаимодействует с DEADBODY и PFIRE
-	if (isSee == false || m_type == EnemyType::PFIRE || m_type == EnemyType::DEADBODY)
+	if (isSee == false || m_type == EnemyType::PFIRE || m_type == EnemyType::DEADBODY) {
 		return Interaction::NOT;
-	roundCoords();
-	int pIX = (int)round(player.x);
-	int pIY = (int)round(player.y);
-	if (m_type != EnemyType::SFIRE)
-	{
-		// Взаимодействие по X
-		for (int pBody{ pIY }; pBody <= pIY + player.height - 1; ++pBody)
-		{
-			for (int eBody{ iy }; eBody <= iy + height - 1; ++eBody)
-			{
-				if (pBody != eBody) continue;
-				else
-				{
-					if ((pIX + player.width == ix) || (ix + width == pIX))
-						return Interaction::ONX;
+	}
 
+	roundCoords();
+	int pIX{ static_cast<int>(round(player.x)) };
+	int pIY{ static_cast<int>(round(player.y)) };
+
+	if (m_type != EnemyType::SFIRE) {
+		// Взаимодействие по X
+		for (auto pBody{ pIY }; pBody <= pIY + player.height - 1; ++pBody) {
+			for (auto eBody{ iy }; eBody <= iy + height - 1; ++eBody) {
+				if (pBody != eBody) {
+					continue;
+				}
+				else {
+					if ((pIX + player.width == ix) || (ix + width == pIX)) {
+						return Interaction::ONX;
+					}
 					break;
 				}
 			}
-
-
 		}
 		// Взаимодействие по Y
-		for (int pBody{ pIX }; pBody <= pIX + player.width - 1; ++pBody)
-		{
-			for (int eBody{ ix }; eBody <= ix + width - 1; ++eBody)
-			{
-				if (pBody != eBody) continue;
-				else
-				{
-					if (pIY + player.height == iy)
+		for (auto pBody{ pIX }; pBody <= pIX + player.width - 1; ++pBody) {
+			for (auto eBody{ ix }; eBody <= ix + width - 1; ++eBody) {
+				if (pBody != eBody) {
+					continue;
+				}
+				else {
+					if (pIY + player.height == iy) {
 						return Interaction::ONY;
-
-					else if (iy + height == pIY)
+					}
+					else if (iy + height == pIY) {
 						return Interaction::ONYD;
-
+					}
 					break;
 				}
 			}
@@ -306,88 +332,74 @@ Interaction Enemy::interaction(Player& player)
 	else
 	{
 		// Взаимодействие по Y
-		for (int pBody{ pIX }; pBody <= pIX + player.width - 1; ++pBody)
-		{
-			if ((map->field[pIY + player.height][pBody] == sym) || (map->field[pIY - 1][pBody] == sym))
+		for (auto pBody{ pIX }; pBody <= pIX + player.width - 1; ++pBody) {
+			if ((map->field[pIY + player.height][pBody] == sym) || (map->field[pIY - 1][pBody] == sym)) {
 				return Interaction::ONY;
+			}
 		}
 		// Взаимодействие по X
-		for (int pBody{ pIY }; pBody <= pIY + player.height - 1; ++pBody)
+		for (auto pBody{ pIY }; pBody <= pIY + player.height - 1; ++pBody)
 		{
-			if ((map->field[pBody][pIX + player.width] == sym) || (map->field[pBody][pIX - 1] == sym))
+			if ((map->field[pBody][pIX + player.width] == sym) || (map->field[pBody][pIX - 1] == sym)) {
 				return Interaction::ONY;
+			}
 		}
 	}
-
 
 	return Interaction::NOT;
 }
 
-void Enemy::processInteraction(Player& player, Interaction type, std::vector<Ground*>& ground_list)
-{
+void Enemy::processInteraction(Player& player, Interaction type, std::vector<Ground*>& ground_list) {
 	// Игрок не взаимодействует с DEADBODY и PFIRE
-	switch (type)
-	{
-	case Interaction::ONY:
-	{
+	switch (type) {
+	case Interaction::ONY: {
 
 		// При напрыгивании на предметы они подбираются игроком
-		if (m_type == EnemyType::COIN || m_type == EnemyType::LIVEMUSHROOM || m_type == EnemyType::STAR)
-		{
-			if (m_type == EnemyType::COIN)
+		if (m_type == EnemyType::COIN || m_type == EnemyType::LIVEMUSHROOM || m_type == EnemyType::STAR) {
+			if (m_type == EnemyType::COIN) {
 				player.addScore(score);
-
-			else if (m_type == EnemyType::LIVEMUSHROOM)
+			}
+			else if (m_type == EnemyType::LIVEMUSHROOM) {
 				player.takeLiveMushroom();
-
-			else if (m_type == EnemyType::STAR)
+			}
+			else if (m_type == EnemyType::STAR) {
 				player.takeStar(score);
-
+			}
 			die(false);
 			return;
 		}
-
-		if (m_type == EnemyType::MUSHROOM || m_type == EnemyType::FLOWER)
-		{
+		if (m_type == EnemyType::MUSHROOM || m_type == EnemyType::FLOWER) {
 			player.levelUp();
 			die();
 			return;
 		}
 
-
 		// При напрыгивании на других Enemy
 		// Player отпрыгивает
 		player.y -= 2.7f;
 		// Неуязвимость убивает всех
-		if (player.useStar())
-		{
+		if (player.useStar()) {
 			player.addScore(score);
 			die();
 			return;
 		}
 
 		// PLANT и SFIRE и BFIRE атакуют Player по Y
-		if (m_type == EnemyType::PLANT || m_type == EnemyType::SFIRE || m_type == EnemyType::BFIRE)
-		{
+		if (m_type == EnemyType::PLANT || m_type == EnemyType::SFIRE || m_type == EnemyType::BFIRE) {
 			player.levelDown();
 			return;
 		}
 
 		// Остальные Enemy получают урон
 		--health;
-		if (m_type == EnemyType::FLYKOOPA)
-		{
+		if (m_type == EnemyType::FLYKOOPA) {
 			setType(EnemyType::KOOPA);
 			return;
 		}
-		if (m_type == EnemyType::KOOPA)
-		{
-			switch (health)
-			{
-			case 2: wspeed = 0; sym = '0'; ++iy;break;
-			case 1:
-			{
-
+		if (m_type == EnemyType::KOOPA) {
+			switch (health) {
+			case 2: wspeed = 0; sym = '0'; ++iy; break;
+			case 1: {
 				wspeed = 0.6f;
 				isFriend = false;
 				m_move = player.side;
@@ -397,56 +409,49 @@ void Enemy::processInteraction(Player& player, Interaction type, std::vector<Gro
 			}
 			return;
 		}
-		if (health == 0)
-		{
+		if (health == 0) {
 			player.addScore(score);
 			die();
 			return;
 		}
 	}
 	break;
-	case Interaction::ONX:
-	{
-
+	case Interaction::ONX: {
 		// При напрыгивании на предметы они подбираются игроком
-		if (m_type == EnemyType::COIN || m_type == EnemyType::LIVEMUSHROOM || m_type == EnemyType::STAR)
-		{
-			if (m_type == EnemyType::COIN)
+		if (m_type == EnemyType::COIN || m_type == EnemyType::LIVEMUSHROOM || m_type == EnemyType::STAR) {
+			if (m_type == EnemyType::COIN) {
 				player.addScore(score);
-
-			else if (m_type == EnemyType::LIVEMUSHROOM)
+			}
+			else if (m_type == EnemyType::LIVEMUSHROOM) {
 				player.takeLiveMushroom();
-
-			else if (m_type == EnemyType::STAR)
+			}
+			else if (m_type == EnemyType::STAR) {
 				player.takeStar(score);
-
+			}
 			die(false);
 			return;
 		}
-
-		if (m_type == EnemyType::MUSHROOM || m_type == EnemyType::FLOWER)
-		{
+		if (m_type == EnemyType::MUSHROOM || m_type == EnemyType::FLOWER) {
 			player.levelUp();
 			die();
 			return;
 		}
-
-		if (player.useStar())
-		{
+		if (player.useStar()) {
 			player.addScore(score);
 			die();
 			return;
 		}
-		if (m_type == EnemyType::KOOPA && health == 2)
-		{
+		if (m_type == EnemyType::KOOPA && health == 2) {
 			wspeed = 0.6f;
 			isFriend = false;
 			--health;
 			m_move = player.side;
-			if (m_move)
+			if (m_move) {
 				x += 2;
-			else
+			}
+			else {
 				x -= 2;
+			}
 			return;
 		}
 		player.y -= 2.7f;
@@ -454,33 +459,27 @@ void Enemy::processInteraction(Player& player, Interaction type, std::vector<Gro
 		return;
 	}
 	break;
-	case Interaction::ONYD:
-	{
-
+	case Interaction::ONYD: {
 		// При напрыгивании на предметы они подбираются игроком
-		if (m_type == EnemyType::COIN || m_type == EnemyType::LIVEMUSHROOM || m_type == EnemyType::STAR)
-		{
-			if (m_type == EnemyType::COIN)
+		if (m_type == EnemyType::COIN || m_type == EnemyType::LIVEMUSHROOM || m_type == EnemyType::STAR) {
+			if (m_type == EnemyType::COIN) {
 				player.addScore(score);
-
-			else if (m_type == EnemyType::LIVEMUSHROOM)
+			}
+			else if (m_type == EnemyType::LIVEMUSHROOM) {
 				player.takeLiveMushroom();
-
-			else if (m_type == EnemyType::STAR)
+			}
+			else if (m_type == EnemyType::STAR) {
 				player.takeStar(score);
-
+			}
 			die(false);
 			return;
 		}
-
-		if (m_type == EnemyType::MUSHROOM || m_type == EnemyType::FLOWER)
-		{
+		if (m_type == EnemyType::MUSHROOM || m_type == EnemyType::FLOWER) {
 			player.levelUp();
 			die();
 			return;
 		}
-		if (player.useStar())
-		{
+		if (player.useStar()) {
 			player.addScore(score);
 			die();
 			return;
@@ -493,34 +492,35 @@ void Enemy::processInteraction(Player& player, Interaction type, std::vector<Gro
 	case Interaction::NOT: return; break;
 	}
 }
-void Enemy::throwFireB(std::vector<Enemy*>& ENEMY)
-{
-	float fX = x - 1;
-	float fY = y;
+
+void Enemy::throwFireB(std::vector<Enemy*>& ENEMY) {
+	const auto fX{ x - 1 };
+	const auto fY{ y };
 	Enemy* fire = new Enemy(fX, fY, *map);
 	ENEMY.push_back(fire);
 }
 
-void Enemy::physic(std::vector<Ground*>& space, Player& player)
-{
+void Enemy::physic(std::vector<Ground*>& space, Player& player) {
 
-	if (m_type == EnemyType::DEADBODY)
-	{
+	if (m_type == EnemyType::DEADBODY) {
 		y -= 0.1f;
 		return;
 	}
-
-	if (!isSee) inVision();
-	if (isStand && ((m_type == EnemyType::STAR) || (m_type == EnemyType::MUSHROOM) || (m_type == EnemyType::LIVEMUSHROOM) || (m_type == EnemyType::COIN)))
+	if (!isSee) {
+		inVision();
+	}
+	if (isStand && ((m_type == EnemyType::STAR) || (m_type == EnemyType::MUSHROOM) || (m_type == EnemyType::LIVEMUSHROOM) || (m_type == EnemyType::COIN))) {
 		isStand = false;
-	if (!isStand && isSee)
-	{
-		if (m_type == EnemyType::SFIRE)
-		{
-			if ((clock() - m_time) >= 1000)
-			{
-				if (position == 7) position = 0;
-				else ++position;
+	}
+	if (!isStand && isSee) {
+		if (m_type == EnemyType::SFIRE) {
+			if ((clock() - m_time) >= 1000) {
+				if (position == 7) {
+					position = 0;
+				}
+				else {
+					++position;
+				}
 				m_time = clock();
 			}
 			return;
@@ -528,206 +528,193 @@ void Enemy::physic(std::vector<Ground*>& space, Player& player)
 
 		roundCoords();
 	
-		if (m_type == EnemyType::BFIRE)
-		{
-
+		if (m_type == EnemyType::BFIRE) {
 			// Задержка перед броском
-			unsigned int delay = 10;
-			if (clock() - m_time <= delay) return;
+			constexpr unsigned delay{ 10 };
 
-			if (throwFire)
-			{
+			if (clock() - m_time <= delay) {
+				return;
+			}
+
+			if (throwFire) {
 				yD = player.y;
 				throwFire = false;
 			}
-			else
-			{
-				if (iy < yD)
+			else {
+				if (iy < yD) {
 					y += fspeed;
-				else if (iy > yD)
+				}
+				else if (iy > yD) {
 					y -= fspeed;
+				}
 				x -= wspeed;
-				if (ix <= 0)
+				if (ix <= 0) {
 					die(false);
+				}
 			}
 			return;
 		}
-		if (m_type == EnemyType::PLANT || m_type == EnemyType::FLYKOOPA|| m_type == EnemyType::BOSS)
-		{
-			if (m_type == EnemyType::PLANT)
-			{
-				if (map->field[iy - 1][ix] == '#')
-					for (int body{ ix }; body <= ix + width - 1; ++body)
-					{
-						if (map->field[iy - 2][body] == player.getMarker())
+		if (m_type == EnemyType::PLANT || m_type == EnemyType::FLYKOOPA|| m_type == EnemyType::BOSS) {
+			if (m_type == EnemyType::PLANT) {
+				if (map->field[iy - 1][ix] == '#') {
+					for (auto body{ ix }; body <= ix + width - 1; ++body) {
+						if (map->field[iy - 2][body] == player.getMarker()) {
 							return;
+						}
 					}
+				}
 			}
 
-			if (m_type == EnemyType::BOSS&&canFall)
-			{
-				for (int i{ 0 }; static_cast<size_t>(i) < space.size(); ++i)
-				{
-					if ((space[i]->getType() == 8) && (space[i]->mode == true))
-					{
+			if (m_type == EnemyType::BOSS && canFall) {
+				for (const auto& g: space) {
+					if ((g->getType() == 8) && (g->mode == true)) {
 						canFall = false;
 						break;
 					}
 				}
 				
 			}
-			if (m_type == EnemyType::BOSS && !canFall)
-			{
-				
-				if (iy >= gDown)
+			if (m_type == EnemyType::BOSS && !canFall) {
+				if (iy >= gDown) {
 					die(false);
-
-				else
-				++y;
-
+				}
+				else {
+					++y;
+				}
 				return;
-				
 			}
 
-				if (m_move && y - 1 <= yU)
-					m_move = !m_move;
-				else if (!m_move && y + height + 1 >= yD)
-					m_move = !m_move;
+			if (m_move && y - 1 <= yU) {
+				m_move = !m_move;
+			}
+			else if (!m_move && y + height + 1 >= yD) {
+				m_move = !m_move;
+			}
 
-				if (m_move)
-				{
-					y -= fspeed;
-					if (m_type == EnemyType::BOSS)
-						x -= 0.04f;
+			if (m_move) {
+				y -= fspeed;
+				if (m_type == EnemyType::BOSS) {
+					x -= 0.04f;
 				}
-				else
-				{
-					y += fspeed;
-					if (m_type == EnemyType::BOSS)
-						x += 0.04f;
+			}
+			else
+			{
+				y += fspeed;
+				if (m_type == EnemyType::BOSS) {
+					x += 0.04f;
 				}
-			
-
+			}
 			return;
 		}
 
-		if (canFall)
-		{
-			const int size = static_cast<int>(space.size());
+		if (canFall) {
+			const auto size{ space.size() };
 			// Последний граунд
 			int last{ -1 };
 			// Число "частей" моба, которые находятся на граунде
-			int member{ false };
-			int downDot = iy + height - 1;
+			auto member{ false };
+			auto downDot{ iy + height - 1 };
 			// Определяет номер граунда, на котором находится
-			for (int g{ 0 }; g < size; ++g)
-			{
-				for (int i{ ix }; i <= ix + width - 1; ++i)
-					if ((i >= space[g]->x1) && (i <= space[g]->x2) && (downDot < space[g]->y1))
-					{
+			for (auto g{ 0 }; g < size; ++g) {
+				for (auto i{ ix }; i <= ix + width - 1; ++i) {
+					if ((i >= space[g]->x1) && (i <= space[g]->x2) && (downDot < space[g]->y1)) {
 						member = true;
 						break;
 					}
-
-				if (!member) continue;
-				else
-				{
-					if (last == -1)
+				}
+				if (!member) {
+					continue;
+				}
+				else {
+					if (last == -1) {
 						last = g;
-
-					else
-					{
-
-						if (space[g]->y1 < space[last]->y1)
-							last = g;
 					}
-
+					else {
+						if (space[g]->y1 < space[last]->y1) {
+							last = g;
+						}
+					}
 				}
 				member = false;
 			}
-			bool wall = false;
-			if (lastGroundNum != -1)
-			{
-						for (int g{ 0 }; g < size; ++g)
-						{
-							if ((m_move && (ix + width == space[g]->x1)) || (!m_move && (ix - 1 == space[g]->x2)))
-								for (int i{ iy }; i <= iy + height - 1; ++i)
-								{
-									if ((i >= space[g]->y1) && (i <= space[g]->y2))
-									{
-										m_move = !m_move;
-										wall = true;
-										break;
-									}
-								}
-							if (wall)
+			auto wall{ false };
+			if (lastGroundNum != -1) {
+				for (const auto& g: space) {
+					if ((m_move && (ix + width == g->x1)) || (!m_move && (ix - 1 == g->x2))) {
+						for (auto i{ iy }; i <= iy + height - 1; ++i) {
+							if ((i >= g->y1) && (i <= g->y2)) {
+								m_move = !m_move;
+								wall = true;
 								break;
-						}
-		
-						if (last == -1)
-						{
-							if (iy >= gDown)
-							{
-								die(false);
-								return;
-							}
-							y += fspeed;
-							if (!isFriend)
-							{
-								if (m_move) x += wspeed;
-								else x -= wspeed;
 							}
 						}
-						else
-						{
-							lastGroundNum = last;
-							// Моб не на граунде
-							if (downDot < space[last]->y1 - 1)
-							{
-								y += fspeed;
-								if (!isFriend)
-								{
-
-									if (m_move) x += wspeed;
-									else x -= wspeed;
-								}
-							}
-							else
-							{
-								if (m_move) x += wspeed;
-								else x -= wspeed;
-							}
-						}
-
-						roundCoords();
-
-				if (m_type == EnemyType::PFIRE)
-				{
-					for(int i{0};i<size;++i)
-					if (iy>= space[i]->y1 && iy <= space[i]->y2 && ix >= space[i]->x1&& ix <= space[i]->x2)
-						wall = true;
-						
-					if (wall)
-					{
+					}
+					if (wall) {
+						break;
+					}
+				}
+				if (last == -1) {
+					if (iy >= gDown) {
 						die(false);
 						return;
 					}
-					if (last != -1)
-					{
-						if (clock() - m_time >= 300)
-						{
+					y += fspeed;
+					if (!isFriend) {
+						if (m_move) {
+							x += wspeed;
+						}
+						else {
+							x -= wspeed;
+						}
+					}
+				}
+				else {
+					lastGroundNum = last;
+					// Моб не на граунде
+					if (downDot < space[last]->y1 - 1) {
+						y += fspeed;
+						if (!isFriend) {
+							if (m_move) {
+								x += wspeed;
+							}
+							else {
+								x -= wspeed;
+							}
+						}
+					}
+					else {
+						if (m_move) {
+							x += wspeed;
+						}
+						else {
+							x -= wspeed;
+						}
+					}
+				}
+
+				roundCoords();
+
+				if (m_type == EnemyType::PFIRE) {
+					for (const auto& g : space) {
+						if (iy >= g->y1 && iy <= g->y2 && ix >= g->x1 && ix <= g->x2) {
+							wall = true;
+						}
+					}
+					if (wall) {
+						die(false);
+						return;
+					}
+					if (last != -1) {
+						if (clock() - m_time >= 300) {
 							--y;
 							m_time = clock();
 						}
 					}
 				}
-
 				return;
 			}
-			else
-			{
-				if (iy >= gDown)
-				{
+			else {
+				if (iy >= gDown) {
 					die(false);
 					return;
 				}
@@ -735,33 +722,32 @@ void Enemy::physic(std::vector<Ground*>& space, Player& player)
 				return;
 			}
 		}
-		else
-		{
-			if (iy + height - 1 < space[lastGroundNum]->y1 - 1)
-			{
+		else {
+			if (iy + height - 1 < space[lastGroundNum]->y1 - 1) {
 				y += fspeed;
 				return;
 			}
-			if ((ix + width == space[lastGroundNum]->x2) || (ix - 1 == space[lastGroundNum]->x1))
-			{
+			if ((ix + width == space[lastGroundNum]->x2) || (ix - 1 == space[lastGroundNum]->x1)) {
 				m_move = !m_move;
 			}
-			if (m_move)
+			if (m_move) {
 				x += wspeed;
-			else
+			}
+			else {
 				x -= wspeed;
+			}
 		}
 	}
 }
 
-void Enemy::enemyInteraction(std::vector<Enemy*>& all, Player& player)
-{
-	if (isSee==false || m_type == EnemyType::BFIRE || m_type == EnemyType::BOSS || m_type == EnemyType::DEADBODY || m_type == EnemyType::COIN || m_type == EnemyType::SFIRE
+void Enemy::enemyInteraction(std::vector<Enemy*>& all, Player& player) {
+	if (isSee == false || m_type == EnemyType::BFIRE || m_type == EnemyType::BOSS || m_type == EnemyType::DEADBODY || m_type == EnemyType::COIN || m_type == EnemyType::SFIRE
 		|| m_type == EnemyType::STAR || m_type == EnemyType::MUSHROOM || m_type == EnemyType::LIVEMUSHROOM || m_type == EnemyType::FLOWER
-		|| m_type == EnemyType::FLYKOOPA || m_type == EnemyType::PLANT)
+		|| m_type == EnemyType::FLYKOOPA || m_type == EnemyType::PLANT) {
 		return;
+	}
 
-	Interaction type=Interaction::NOT;
+	auto type{ Interaction::NOT };
 	int ixOther;
 	int iyOther;
 	int otherWidth;
@@ -770,318 +756,298 @@ void Enemy::enemyInteraction(std::vector<Enemy*>& all, Player& player)
 	bool otherIsFriend;
 	int otherScore;
 	EnemyType otherType;
-	for (int i{ 0 }; i < static_cast<int>(all.size()); ++i)
-	{
-		// Моб умер ранее
-		if (all[i] == nullptr) continue;
-		// Взаимодействие моба с самим собой
-		if (*this == *all[i])  continue;
-		otherType = all[i]->m_type;
-		otherIsFriend = all[i]->isFriendF();
 
-		if (all[i]->isSee == false || otherType == EnemyType::BFIRE || otherType == EnemyType::BOSS || otherType == EnemyType::DEADBODY || otherType == EnemyType::COIN || otherType == EnemyType::SFIRE
-			|| otherType == EnemyType::PFIRE || ((otherIsFriend == false) && (isFriend == true)))
+	for (auto&e:all) {
+		// Моб умер ранее
+		if (e == nullptr) {
 			continue;
-		ixOther = (int)round(all[i]->getX());
-		iyOther = (int)round(all[i]->getY());
-		otherWidth = all[i]->width;
-		otherHeight = all[i]->height;
+		}
+		// Взаимодействие моба с самим собой
+		if (*this == *e) {
+			continue;
+		}
+
+		otherType = e->m_type;
+		otherIsFriend = e->isFriendF();
+
+		if (e->isSee == false || otherType == EnemyType::BFIRE || otherType == EnemyType::BOSS || otherType == EnemyType::DEADBODY || otherType == EnemyType::COIN || otherType == EnemyType::SFIRE
+			|| otherType == EnemyType::PFIRE || ((otherIsFriend == false) && (isFriend == true))) {
+			continue;
+		}
+
+		ixOther = static_cast<int>(round(e->getX()));
+		iyOther = static_cast<int>(round(e->getY()));
+		otherWidth = e->width;
+		otherHeight = e->height;
 		end = false;
 		roundCoords();
 		// Взаимодействие по X
-		for (int thisBody{ iy }; thisBody <= iy + height - 1; ++thisBody)
-		{
-			for (int otherBody{ iyOther }; otherBody <= iyOther + otherHeight - 1; ++otherBody)
-			{
-				if (thisBody != otherBody) continue;
-				else
-				{
-					for (int i{ ix }; i <= ix + width - 1; ++i)
-					{
-						for (int j{ ixOther }; j <= ixOther + otherWidth - 1; ++j)
-						{
-							if (i == j)
-							{
+		for (auto thisBody{ iy }; thisBody <= iy + height - 1; ++thisBody) {
+			for (auto otherBody{ iyOther }; otherBody <= iyOther + otherHeight - 1; ++otherBody) {
+				if (thisBody != otherBody) {
+					continue;
+				}
+				else {
+					for (auto i{ ix }; i <= ix + width - 1; ++i) {
+						for (auto j{ ixOther }; j <= ixOther + otherWidth - 1; ++j) {
+							if (i == j) {
 								end = true;
 								break;
 							}
 						}
-						if (end)
+						if (end) {
 							break;
+						}
 					}
-					if (end)
+					if (end) {
 						break;
-					if ((ix + width == ixOther) || (ixOther + otherWidth == ix))
-					{
+					}
+					if ((ix + width == ixOther) || (ixOther + otherWidth == ix)) {
 						type = Interaction::ONX;
 						end = true;
 						break;
 					}
-
-					
 				}
 				
 			}
-			if (end)
+			if (end) {
 				break;
+			}
 		}
-		
-		if (type == Interaction::NOT&&end)	
+		if (type == Interaction::NOT && end) {
 			return;
-
-		
-		if (!end)
-		{
+		}
+		if (!end) {
 			// Взаимодействие по Y
-			for (int thisBody{ ix }; thisBody <= ix + width - 1; ++thisBody)
-			{
-				for (int otherBody{ ixOther }; otherBody <= ixOther + otherWidth - 1; ++otherBody)
-				{
-					if (thisBody != otherBody) continue;
-					else
-					{
-						if ((iy + height == iyOther) || (iy == iyOther + otherHeight))
-						{
+			for (auto thisBody{ ix }; thisBody <= ix + width - 1; ++thisBody) {
+				for (auto otherBody{ ixOther }; otherBody <= ixOther + otherWidth - 1; ++otherBody) {
+					if (thisBody != otherBody) {
+						continue;
+					}
+					else {
+						if ((iy + height == iyOther) || (iy == iyOther + otherHeight)) {
 							// Этот - падает на другого
-							if (iy + height == iyOther)
+							if (iy + height == iyOther) {
 								type = Interaction::ONY;
+							}
 							// Другой падает на этого
-							else
+							else {
 								type = Interaction::ONYD;
+							}
 							end = true;
 							break;
 						}
 					}
 				}
-				if (end)
+				if (end) {
 					break;
+				}
 			}
 		}
-
 		// Не было взаимодействия
-		if (!end) continue;
+		if (!end) {
+			continue;
+		}
 
-		bool isItem = otherType == EnemyType::STAR || otherType == EnemyType::MUSHROOM || otherType == EnemyType::LIVEMUSHROOM || otherType == EnemyType::FLOWER
-			|| otherType == EnemyType::FLYKOOPA || otherType == EnemyType::PLANT;
-		otherScore = all[i]->getScore();
+		bool isItem{ otherType == EnemyType::STAR || otherType == EnemyType::MUSHROOM || otherType == EnemyType::LIVEMUSHROOM || otherType == EnemyType::FLOWER
+			|| otherType == EnemyType::FLYKOOPA || otherType == EnemyType::PLANT };
+
+		otherScore = e->getScore();
 		// Этот - огонь игрока
-		if (m_type == EnemyType::PFIRE)
-		{
-			if (!isItem)
-			{
+		if (m_type == EnemyType::PFIRE) {
+			if (!isItem) {
 				player.addScore(otherScore);
-				all[i]->die();
+				e->die();
 			}
 			die(false);
 			return;
 		}
 		// Этот - не друг, другой - друг
-		if (!isFriend && !isItem && otherIsFriend)
-		{
+		if (!isFriend && !isItem && otherIsFriend) {
 			player.addScore(otherScore);
-			all[i]->die();
+			e->die();
 			continue;
 		}
-
 		// Оба - друзья или враги
-		if (type == Interaction::ONX)
-		{
-			bool changeThis{ false };
-			bool changeOther{ false };
-			bool& moveOther = all[i]->m_move;
-			if (isItem)
-			{
+		if (type == Interaction::ONX) {
+			auto changeThis{ false };
+			auto changeOther{ false };
+			bool& moveOther{ e->m_move };
+			if (isItem) {
 				m_move = !m_move;
 				changeThis = true;
 			}
-			else
-			{
+			else {
 				// Двигались друг на друга
-				if (m_move != moveOther)
-				{
+				if (m_move != moveOther) {
 					m_move = !m_move;
 					changeThis = true;
 
 					moveOther = !moveOther;
 					changeOther = true;
 				}
-				else
-				{
-					if (m_move && (ix > ixOther))
-					{
+				else {
+					if (m_move && (ix > ixOther)) {
 						moveOther = !moveOther;
 						changeOther = true;
 					}
-					else if (m_move && (ix < ixOther))
-					{
+					else if (m_move && (ix < ixOther)) {
 						m_move = !m_move;
 						changeThis = true;
 					}
-					else if (!m_move && (ix > ixOther))
-					{
+					else if (!m_move && (ix > ixOther)) {
 						m_move = !m_move;
 						changeThis = true;
 					}
-					else if (!m_move && (ix < ixOther))
-					{
+					else if (!m_move && (ix < ixOther)) {
 						moveOther = !moveOther;
 						changeOther = true;
 					}
 				}
 			}
 
-			if (changeThis)
-			{
-				if (m_move)
+			if (changeThis) {
+				if (m_move) {
 					++x;
-				else
+				}
+				else {
 					--x;
+				}
 			}
-			else if (changeOther)
-			{
-				if (moveOther)
-					++all[i]->x;
-				else
-					--all[i]->x;
+			else if (changeOther) {
+				if (moveOther) {
+					++e->x;
+				}
+				else {
+					--e->x;
+				}
 			}
 			return;
 		}
 
 		// Этот - падает на другого
-		if (type == Interaction::ONY) { fspeed = 0; }
-		if (type == Interaction::ONYD) { all[i]->fspeed = 0; }
+		if (type == Interaction::ONY) { 
+			fspeed = 0; 
+		}
+		if (type == Interaction::ONYD) { 
+			e->fspeed = 0; 
+		}
 	}
 }
 
-void Enemy::reset()
-{
-	switch (m_type)
-	{
+void Enemy::reset() {
+	switch (m_type) {
 	case EnemyType::GOOMBA: fspeed = 0.1f; break;
-
 	case EnemyType::KOOPA:fspeed = 0.1f; break;
-
 	case EnemyType::FLYKOOPA:fspeed = 0.1f; break;
-
 	case EnemyType::PLANT:fspeed = 0.01f; break;
-
 	case EnemyType::STAR:fspeed = 0.1f; break;
-
 	case EnemyType::MUSHROOM:fspeed = 0.1f; break;
-
 	case EnemyType::LIVEMUSHROOM:fspeed = 0.1f; break;
-
 	case EnemyType::FLOWER:fspeed = 0.1f; break;
-
 	case EnemyType::BOSS:fspeed = 0.02f; break;
 	}
 }
 
-void enemyModule(std::vector<Enemy*>& ENEMY, Player& player, std::vector<Ground*>& GROUND, Map& map, WorkType type)
-{
-	if (type == WorkType::PTHROW)
-	{
-
-		bool side = player.side;
+void enemyModule(std::vector<Enemy*>& ENEMY, Player& player, std::vector<Ground*>& GROUND, Map& map, WorkType type) {
+	if (type == WorkType::PTHROW) {
+		const auto side{ player.side };
 		int fX;
-		if (side)
+
+		if (side) {
 			fX = static_cast<int>(player.x) + player.width;
-		else
+		}
+		else {
 			fX = static_cast<int>(player.x) - 1;
-		int fY = static_cast<int>(player.y)+player.height-1;
-		bool canSpawn{ true };
-		int i = fX;
-		if (fX <= 0 || fY <= 0)
+		}
+		int fY{ static_cast<int>(player.y) + player.height - 1 };
+		auto canSpawn{ true };
+		auto i{ fX };
+		if (fX <= 0 || fY <= 0) {
 			canSpawn = false;
-		else
-		{
-			while (true)
-			{
-				if (map.field[fY][i] == '#')
-				{
+		}
+		else {
+			while (true) {
+				if (map.field[fY][i] == '#') {
 					canSpawn = false;
 					break;
 				}
-				if (side)
-				{
-					if (i - fX == 1)
+				if (side) {
+					if (i - fX == 1) {
 						break;
+					}
 					++i;
 				}
-				else
-				{
-					if (fX - i == 1)
+				else {
+					if (fX - i == 1) {
 						break;
+					}
 					--i;
 				}
 
 			}
 		}
-
-		if (canSpawn)
-		{
+		if (canSpawn) {
 			Enemy* pFire = new Enemy(static_cast<float>(fX), static_cast<float>(fY), EnemyType::PFIRE, map, GROUND, true, player.side);
 			ENEMY.push_back(pFire);
 		}
 		return;
 	}
 
-	for (int i{ 0 }; i < static_cast<int>(ENEMY.size()); ++i)
+	for (auto&e:ENEMY)
 	{
-		if (ENEMY[i] == nullptr) continue;
-
-		if (type == WorkType::ENABLEALL)
-			ENEMY[i]->move();
-
-		if (type == WorkType::PUTONMAP)
-			ENEMY[i]->putOnMap();
-
-		if (type == WorkType::MOVER)
-			ENEMY[i]->moveR(player.wspeed);
-
-		if (type == WorkType::PHYSIC)
-		{
-			ENEMY[i]->physic(GROUND, player);
-			if (!ENEMY[i]->status() && ENEMY[i]->inVis() && (ENEMY[i]->getType() == 10) && ((clock() - ENEMY[i]->getTime()) >= 1500))
-			{
-				ENEMY[i]->throwFireB(ENEMY);
-				ENEMY[i]->setTime();
+		if (e == nullptr) {
+			continue;
+		}
+		if (type == WorkType::ENABLEALL) {
+			e->move();
+		}
+		if (type == WorkType::PUTONMAP) {
+			e->putOnMap();
+		}
+		if (type == WorkType::MOVER) {
+			e->moveR(player.wspeed);
+		}
+		if (type == WorkType::PHYSIC) {
+			e->physic(GROUND, player);
+			if (!e->status() && e->inVis() && (e->getType() == 10) && ((clock() - e->getTime()) >= 1500)) {
+				e->throwFireB(ENEMY);
+				e->setTime();
 			}
-			ENEMY[i]->reset();
-			ENEMY[i]->enemyInteraction(ENEMY, player);
+			e->reset();
+			e->enemyInteraction(ENEMY, player);
 			enemyCheckAndClear(ENEMY);
 		}
 
-		if (type == WorkType::INTERACTION)
-		{
-			if (ENEMY[i] == nullptr) continue;
-			if (!player.status())
-				ENEMY[i]->processInteraction(player, ENEMY[i]->interaction(player), GROUND);
+		if (type == WorkType::INTERACTION) {
+			if (e == nullptr) {
+				continue;
+			}
+			if (!player.status()) {
+				e->processInteraction(player, e->interaction(player), GROUND);
+			}
 			enemyCheckAndClear(ENEMY);
 		}
 	}
 }
-
 
 // Проверка всех врагов
 // Если враг мёрт - удалить его
-void enemyCheckAndClear(std::vector<Enemy*>& all)
-{
-	for (int i{ 0 }; i < static_cast<int>(all.size()); ++i)
+void enemyCheckAndClear(std::vector<Enemy*>& all) {
+	for (auto & e: all)
 	{
-		if (all[i] == nullptr) continue;
-		if (all[i]->isDead())
-		{
-			delete all[i];
-			all[i] = nullptr;
+		if (e == nullptr) {
+			continue;
+		}
+		if (e->isDead()) {
+			delete e;
+			e = nullptr;
 		}
 	}
 }
 
-size_t Enemy::getType()
-{
-	switch (m_type)
-	{
+size_t Enemy::getType() {
+	switch (m_type) {
 		// Враги
 	case EnemyType::GOOMBA:
 		return 0;
@@ -1122,19 +1088,16 @@ size_t Enemy::getType()
 	return -1;
 }
 
-void Enemy::setCoord(float x, float y)
-{
+void Enemy::setCoord(float x, float y) {
 	this->x = x;
 	this->y = y;
-	ix = (int)round(x);
-	iy = (int)round(y);
+	ix = static_cast<int>(round(x));
+	iy = static_cast<int>(round(y));
 }
 
-void Enemy::setType(EnemyType type)
-{
+void Enemy::setType(EnemyType type) {
 	m_type = type;
-	switch (type)
-	{
+	switch (type) {
 
 	case EnemyType::GOOMBA:
 		sym = '1';

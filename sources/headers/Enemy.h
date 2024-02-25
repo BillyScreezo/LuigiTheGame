@@ -68,7 +68,7 @@ private:
 	int position;          // Текущее состояние для SFIRE(в какой позиции находится в данный момент)
 
 	// Сравнение двух сущностей
-	bool operator==(Enemy&);
+	inline bool operator==(Enemy& other) { return this->ID == other.ID; }
 
 	void inVision();
 
@@ -78,12 +78,13 @@ public:
 	// Необходимо обнулять на каждом level
 	static int sID;
 
-	// Активена ли сущность
-	bool status();
-	bool inVis();
-	// Функции состояния
-	// Дружественна ли сущность
-	bool isFriendF();
+	// Получение статуса сущности(активна/неактивна)
+	inline bool status() { return isStand; }
+
+	inline bool inVis() { return isSee; }
+
+	// Получение статуса сущности(дружественна/враждебна)
+	inline bool isFriendF() { return isFriend; }
 
 	Enemy(float, float, EnemyType, Map&, std::vector<Ground*>&, bool canFall = true, bool move = false);
 	Enemy(float, float, Map&);
@@ -96,8 +97,8 @@ public:
 
 	virtual void die(bool type = true) override;
 
-	// Перемещение сущности при движении игрока
-	void moveR(float);
+	// Смещение сущности при движении игрока Right
+	inline void moveR(float wspeed) { x -= wspeed; }
 
 	// Мертва ли сущность
 	virtual bool isDead() override;
@@ -110,8 +111,8 @@ public:
 	inline float getX() { return x; }
 	inline float getY() { return y; }
 
-	// Привести сущность в движение
-	void move();
+	// Переактивация сущности(вкл./выкл. физики)
+	inline void move() { isStand = !isStand; }
 
 	// Взаимодействие сущностей друг с другом
 	void enemyInteraction(std::vector<Enemy*>&, Player&);
