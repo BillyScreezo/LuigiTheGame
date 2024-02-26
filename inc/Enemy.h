@@ -1,18 +1,15 @@
 #pragma once
+
+#include <vector>
+
 #include "Prototype.h"
 #include "Ground.h"
 #include "Player.h"
-#include <vector>
-#include "Const.h"
-// Уникальный идентификатор сущности
-// Необходимо обнулять на каждом level
-static int sID{ 0 };
 
 class Player;
 
 // Тип сущности
-enum class EnemyType
-{
+enum class EnemyType {
 	// Обычные враги
 	// Гриб
 	GOOMBA,
@@ -49,17 +46,14 @@ enum class EnemyType
 };
 
 // Вид взаимодействия сущ
-enum class Interaction
-{
+enum class Interaction {
 	ONX,
 	ONY,
 	ONYD,
 	NOT
 };
 
-using namespace std;
-class Enemy : public Prototype
-{
+class Enemy final : public Prototype {
 private:
 	EnemyType m_type;      // Тип сущности
 	bool m_move;           // Направление движения, true - right/up, f - left/down
@@ -74,78 +68,53 @@ private:
 	int position;          // Текущее состояние для SFIRE(в какой позиции находится в данный момент)
 
 	// Сравнение двух сущностей
-	bool operator==(Enemy&);
-
-
+	inline bool operator==(const Enemy& other) { return this->ID == other.ID; }
 	void inVision();
 
 public:
 
-	// Активена ли сущность
-	bool status();
-	bool inVis();
-	// Функции состояния
-	// Дружественна ли сущность
-	bool isFriendF();
+	// Уникальный идентификатор сущности
+	// Необходимо обнулять на каждом level
+	static int sID;
 
-	Enemy(float, float, EnemyType, Map&, vector<Ground*>&, bool canFall = true, bool move = false);
+	Enemy(float, float, EnemyType, Map&, std::vector<Ground*>&, bool canFall = true, bool move = false);
 	Enemy(float, float, Map&);
 
+	// Получение статуса сущности(активна/неактивна)
+	inline bool status() { return isStand; }
+	inline bool inVis() { return isSee; }
+	// Получение статуса сущности(дружественна/враждебна)
+	inline bool isFriendF() { return isFriend; }
+	// Смещение сущности при движении игрока Right
+	inline void moveR(float wspeed) { x -= wspeed; }
+	// Переактивация сущности(вкл./выкл. физики)
+	inline void move() { isStand = !isStand; }
+	// Геттеры координат
+	inline float getX() { return x; }
+	inline float getY() { return y; }
+
 	// MapC fun
-	void setCoord(float x, float y);
-	size_t getType();
-
+	void setCoord(float, float);
 	void setType(EnemyType);
+	void throwFireB(std::vector<Enemy*>&);
+	void reset();
+	void physic(std::vector<Ground*>&, Player&);
+	// Взаимодействие сущностей друг с другом
+	void enemyInteraction(std::vector<Enemy*>&, Player&);
+	// Обработка взаимодействия игрока и сущности
+	void processInteraction(Player&, Interaction, std::vector<Ground*>&);
 
-	void die(bool type = true);
-
-	// Перемещение сущности при движении игрока
-	void moveR(float wspeed);
-
-
+	// Определение типа взаимодействия игрока и сущности
+	Interaction interaction(Player&);
+	size_t getType();
 
 	// Мертва ли сущность
 	virtual bool isDead() override;
-
-	void throwFireB(vector<Enemy*>& ENEMY);
-
-	void reset();
-
-
-	// Геттеры координат
-	float getX() { return x; }
-	float getY() { return y; }
-
-
-
-	// Привести сущность в движение
-	void move();
-
-
-	// Взаимодействие сущностей друг с другом
-	void enemyInteraction(vector<Enemy*>&, Player&);
-
-	// Определение типа взаимодействия игрока и сущности
-	Interaction interaction(Player& player);
-
-	// Обработка взаимодействия игрока и сущности
-	void processInteraction(Player&, Interaction, vector<Ground*>&);
-
-
-
+	virtual void die(bool type = true) override;
 	virtual void putOnMap() override;
-
-
-
-
-	void physic(vector<Ground*>& space, Player& player);
-
-
 };
 
-
-enum class WorkType
-{
+enum class WorkType {
 	ENABLEALL,
 	PUTONMAP,
 	MOVEL,
@@ -158,6 +127,6 @@ enum class WorkType
 
 // Проверка всех врагов
 // Если враг мёрт - удалить его
-void enemyCheckAndClear(vector<Enemy*>&);
+void enemyCheckAndClear(std::vector<Enemy*>&);
 
-void enemyModule(vector<Enemy*>&, Player&, vector<Ground*>&, Map& map, WorkType);
+void enemyModule(std::vector<Enemy*>&, Player&, std::vector<Ground*>&, Map&, WorkType);

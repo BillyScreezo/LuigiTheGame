@@ -1,25 +1,23 @@
 #pragma once
 
-const int gDown = 23;
-const unsigned int lTime[] = { 400,400,300,300 };
-// Foo.cpp
+constexpr int gDown{ 23 };
+constexpr unsigned lTime[] = { 400, 400, 300, 300 };
 
-const int max_pX = 35;
-const int spacedelay = 150;
-const float bridgespeed = 0.3f;
+// Foo.cpp
+constexpr int max_pX{ 35 };
+constexpr int spacedelay{ 150 };
+constexpr float bridgespeed{ 0.3f };
 
 // Player
+constexpr float fallspeed{ 0.3f };
+constexpr float walkspeed{ 0.5f };
+constexpr int pwidth{ 2 };
+constexpr int pheight{ 2 };
+constexpr float jumpforce{ 0.9f };
+constexpr float maxblocks{ 7.0f };
 
-const float fallspeed = 0.3f;
-const float walkspeed = 0.5f;
-const int pwidth = 2;
-const int pheight = 2;
-const float jumpforce = 0.9f;
-const float maxblocks = 7.0f;
-
-const size_t mushscore = 1000;
+constexpr size_t mushscore{ 1000 };
 
 // Ground
-
-const float blockspeed = 0.2f;
-const float blockspeedy = 0.1f;
+constexpr float blockspeed{ 0.2f };
+constexpr float blockspeedy{ 0.1f };

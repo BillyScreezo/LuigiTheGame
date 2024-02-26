@@ -29,16 +29,16 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 add_executable(${EXECUTABLE_NAME}
     main.cpp
-    # ${SRC_DIR}/Enemy.cpp
-    # ${SRC_DIR}/Foo.cpp
-    # ${SRC_DIR}/Ground.cpp
+    ${SRC_DIR}/Enemy.cpp
+    ${SRC_DIR}/Foo.cpp
+    ${SRC_DIR}/Ground.cpp
     # ${SRC_DIR}/Levels.cpp
-    # ${SRC_DIR}/Map.cpp
-    # ${SRC_DIR}/MapCreator.cpp
-    # ${SRC_DIR}/Player.cpp
-    # ${SRC_DIR}/Prototype.cpp
+    ${SRC_DIR}/Map.cpp
+    ${SRC_DIR}/MapCreator.cpp
+    ${SRC_DIR}/Player.cpp
+    ${SRC_DIR}/Prototype.cpp
     # ${SRC_DIR}/Source.cpp
-    # ${SRC_DIR}/Timer.cpp
+    ${SRC_DIR}/Timer.cpp
 )
 
 # TODO: add OpenMP lib

@@ -1,6 +1,9 @@
-#include "MapCreator.h"
+#include <iostream>
+#include <conio.h>
+#include <Windows.h>
 
-using namespace std;
+#include "MapCreator.h"
+#include "Foo.h"
 
 Ground* addNewObject_g(int x1, int y1, int x2, int y2, size_t type, Map& map)
 {
@@ -18,12 +21,12 @@ Ground* addNewObject_g(int x1, int y1, int x2, int y2, size_t type, size_t range
 		{
 			do {
 				system("cls");
-				cout << "Enter move range of this ground type: ";
-				cin >> buff;
+				std::cout << "Enter move range of this ground type: ";
+				std::cin >> buff;
 				if (atoi(buff) <= 0)
 				{
-					cout << "Enter number bigger than 0!\n";
-					system("pause");
+					std::cout << "Enter number bigger than 0!\n";
+					_getch();
 				}
 			} while (atoi(buff) <= 0);
 			ground = new Ground(x1, x2, y1, y2, type, map, atoi(buff));
@@ -36,15 +39,15 @@ Ground* addNewObject_g(int x1, int y1, int x2, int y2, size_t type, size_t range
 	return ground;
 }
 
-Enemy* addNewObject_e(float x, float y, EnemyType type, Map& map, vector<Ground*>& ground_list)
+Enemy* addNewObject_e(float x, float y, EnemyType type, Map& map, std::vector<Ground*>& ground_list)
 {
 	Enemy* enemy = new Enemy(x, y, type, map, ground_list);
 	return enemy;
 }
 
-void loadMap(ifstream& fin, vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map& map)
+void loadMap(std::ifstream& fin, std::vector<Ground*>& ground_list, std::vector<Enemy*>& enemy_list, Map& map)
 {
-	string buff, mode;
+	std::string buff, mode;
 	char* dig;
 	int array[6]{ 0 };
 	float arr[2]{ 0 };
@@ -54,7 +57,7 @@ void loadMap(ifstream& fin, vector<Ground*>& ground_list, vector<Enemy*>& enemy_
 		array[i] = 0;
 	while (!fin.eof())
 	{
-		getline(fin, buff);
+		std::getline(fin, buff);
 		if (buff == "g:" || buff == "e:")
 		{
 			mode = buff;
@@ -131,30 +134,30 @@ void loadMap(ifstream& fin, vector<Ground*>& ground_list, vector<Enemy*>& enemy_
 	}
 }
 
-void deleteObject_g(vector<Ground*>& ground_list, int index)
+void deleteObject_g(std::vector<Ground*>& ground_list, int index)
 {
 	delete[] ground_list[index];
 	ground_list.erase(ground_list.begin() + index);
 }
 
-void deleteObject_e(vector<Enemy*>& enemy_list, int index)
+void deleteObject_e(std::vector<Enemy*>& enemy_list, int index)
 {
 	delete[] enemy_list[index];
 	enemy_list.erase(enemy_list.begin() + index);
 }
 
-void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map& map, int pos, int& gin, int& ein, bool& g_change, bool& e_change)
+void interactMenu(std::vector<Ground*>& ground_list, std::vector<Enemy*>& enemy_list, Map& map, int pos, int& gin, int& ein, bool& g_change, bool& e_change)
 {
 	bool isend = false, isend3 = false, isend4 = false;
 	char buff[50];
-	string str;
+	std::string str;
 	int height, width, g_index = static_cast<int>(ground_list.size()) - 1, g_e = 0, enemy_type = 0, e_index = static_cast<int>(enemy_list.size()) - 1;
 	size_t type;
 	system("cls");
 	while (!isend)
 	{
 		SetCur(0, 0);
-		cout << "1 - Add new object\n2 - Edit object\n3 - Delete object\n4 - Back\n";
+		std::cout << "1 - Add new object\n2 - Edit object\n3 - Delete object\n4 - Back\n";
 		switch (_getch())
 		{
 		case '1':
@@ -162,9 +165,9 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 			while (!isend3)
 			{
 				SetCur(0, 0);
-				cout << "What object you want to create: ";
-				if (g_e == 0) cout << "ground type      \n";
-				if (g_e == 1) cout << "enemy type       \n";
+				std::cout << "What object you want to create: ";
+				if (g_e == 0) std::cout << "ground type      \n";
+				if (g_e == 1) std::cout << "enemy type       \n";
 				if (GetKeyState(VK_RIGHT) < 0)
 				{
 					g_e++;
@@ -182,32 +185,32 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 			{
 			case 0:
 				system("cls");
-				cout << "Enter width, height and ground type: ";
-				cin >> buff;
+				std::cout << "Enter width, height and ground type: ";
+				std::cin >> buff;
 				if (atoi(buff) <= 0)
 				{
-					cout << "Enter number bigger than 0!\n";
-					system("pause");
+					std::cout << "Enter number bigger than 0!\n";
+					_getch();
 					system("cls");
 				}
 				else
 				{
 					width = atoi(buff);
-					cin >> buff;
+					std::cin >> buff;
 					if (atoi(buff) <= 0)
 					{
-						cout << "Enter number bigger than 0!\n";
-						system("pause");
+						std::cout << "Enter number bigger than 0!\n";
+						_getch();
 						system("cls");
 					}
 					else
 					{
 						height = atoi(buff);
-						cin >> buff;
+						std::cin >> buff;
 						if (atoi(buff) < 0)
 						{
-							cout << "Enter number bigger than 0!\n";
-							system("pause");
+							std::cout << "Enter number bigger than 0!\n";
+							_getch();
 							system("cls");
 						}
 						else
@@ -227,41 +230,41 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 				while (!isend3)
 				{
 					SetCur(0, 0);
-					cout << "Choose enemy type: ";
+					std::cout << "Choose enemy type: ";
 					switch (enemy_type)
 					{
 					case 0:
-						cout << "GOOMBA       \n";
+						std::cout << "GOOMBA       \n";
 						break;
 					case 1:
-						cout << "KOOPA        \n";
+						std::cout << "KOOPA        \n";
 						break;
 					case 2:
-						cout << "FLYKOOPA     \n";
+						std::cout << "FLYKOOPA     \n";
 						break;
 					case 3:
-						cout << "PLANT        \n";
+						std::cout << "PLANT        \n";
 						break;
 					case 4:
-						cout << "SFIRE        \n";
+						std::cout << "SFIRE        \n";
 						break;
 					case 5:
-						cout << "STAR        \n";
+						std::cout << "STAR        \n";
 						break;
 					case 6:
-						cout << "MUSHROOM        \n";
+						std::cout << "MUSHROOM        \n";
 						break;
 					case 7:
-						cout << "LIVEMUSHROOM     \n";
+						std::cout << "LIVEMUSHROOM     \n";
 						break;
 					case 8:
-						cout << "FLOWER       \n";
+						std::cout << "FLOWER       \n";
 						break;
 					case 9:
-						cout << "COIN         \n";
+						std::cout << "COIN         \n";
 						break;
 					case 10:
-						cout << "BOSS         \n";
+						std::cout << "BOSS         \n";
 						break;
 					}
 					if (GetKeyState(VK_RIGHT) < 0)
@@ -331,9 +334,9 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 				while (!isend4)
 				{
 					SetCur(0, 0);
-					cout << "What object you want to change: ";
-					if (g_e == 0) cout << "ground type      \n";
-					if (g_e == 1) cout << "enemy type       \n";
+					std::cout << "What object you want to change: ";
+					if (g_e == 0) std::cout << "ground type      \n";
+					if (g_e == 1) std::cout << "enemy type       \n";
 					if (GetKeyState(VK_RIGHT) < 0)
 					{
 						g_e++;
@@ -359,8 +362,8 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 					{
 						Sleep(100);
 						SetCur(0, 0);
-						cout << "Which object you want to change?\nSelect: ";
-						cout << "gr" << g_index + 1 << "(" << ground_list[g_index]->x1 << ", " << ground_list[g_index]->x2 << ", " <<
+						std::cout << "Which object you want to change?\nSelect: ";
+						std::cout << "gr" << g_index + 1 << "(" << ground_list[g_index]->x1 << ", " << ground_list[g_index]->x2 << ", " <<
 							ground_list[g_index]->y1 << ", " << ground_list[g_index]->y2 << ", " << ground_list[g_index]->getType() << ")        ";
 						if (GetKeyState(VK_LEFT) < 0)
 						{
@@ -375,22 +378,22 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 						if (_getch() == 13)
 						{
 							system("cls");
-							cout << "Enter width and height: ";
-							cin >> buff;
+							std::cout << "Enter width and height: ";
+							std::cin >> buff;
 							if (atoi(buff) <= 0)
 							{
-								cout << "Enter number bigger than 0!\n";
-								system("pause");
+								std::cout << "Enter number bigger than 0!\n";
+								_getch();
 								system("cls");
 							}
 							else
 							{
 								width = atoi(buff);
-								cin >> buff;
+								std::cin >> buff;
 								if (atoi(buff) <= 0)
 								{
-									cout << "Enter number bigger than 0!\n";
-									system("pause");
+									std::cout << "Enter number bigger than 0!\n";
+									_getch();
 									system("cls");
 								}
 								else
@@ -400,12 +403,12 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 									{
 										do {
 											system("cls");
-											cout << "Enter range: " << endl;
-											cin >> buff;
+											std::cout << "Enter range: " << std::endl;
+											std::cin >> buff;
 											if (atoi(buff) <= 0)
 											{
-												cout << "Enter number bigger than 0!\n";
-												system("pause");
+												std::cout << "Enter number bigger than 0!\n";
+												_getch();
 											}
 										} while (atoi(buff) <= 0);
 										ground_list[g_index]->setDiapasoneX(ground_list[g_index]->x1, ground_list[g_index]->x1 + atoi(buff));
@@ -428,42 +431,42 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 						while (!isend3)
 						{
 							SetCur(0, 0);
-							cout << "Which object you want to change?\nSelect: ";
-							cout << "enemy" << e_index + 1 << "(" << enemy_list[e_index]->getX() << ", " << enemy_list[e_index]->getY() << ", ";
+							std::cout << "Which object you want to change?\nSelect: ";
+							std::cout << "enemy" << e_index + 1 << "(" << enemy_list[e_index]->getX() << ", " << enemy_list[e_index]->getY() << ", ";
 							switch (enemy_list[e_index]->getType())
 							{
 							case 0:
-								cout << "GOOMBA)       \n";
+								std::cout << "GOOMBA)       \n";
 								break;
 							case 1:
-								cout << "KOOPA)        \n";
+								std::cout << "KOOPA)        \n";
 								break;
 							case 2:
-								cout << "FLYKOOPA)     \n";
+								std::cout << "FLYKOOPA)     \n";
 								break;
 							case 3:
-								cout << "PLANT)        \n";
+								std::cout << "PLANT)        \n";
 								break;
 							case 4:
-								cout << "SFIRE)        \n";
+								std::cout << "SFIRE)        \n";
 								break;
 							case 5:
-								cout << "STAR)        \n";
+								std::cout << "STAR)        \n";
 								break;
 							case 6:
-								cout << "MUSHROOM)        \n";
+								std::cout << "MUSHROOM)        \n";
 								break;
 							case 7:
-								cout << "LIVEMUSHROOM)     \n";
+								std::cout << "LIVEMUSHROOM)     \n";
 								break;
 							case 8:
-								cout << "FLOWER)       \n";
+								std::cout << "FLOWER)       \n";
 								break;
 							case 9:
-								cout << "COIN)         \n";
+								std::cout << "COIN)         \n";
 								break;
 							case 10:
-								cout << "BOSS)         \n";
+								std::cout << "BOSS)         \n";
 								break;
 							}
 							Sleep(100);
@@ -483,8 +486,8 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 								while (!isend4)
 								{
 									system("cls");
-									cout << "Enter type or enter \'nothing\' in order to change coords: ";
-									cin >> buff;
+									std::cout << "Enter type or enter \'nothing\' in order to change coords: ";
+									std::cin >> buff;
 									if (strcmp(buff, "GOOMBA") == 0)
 									{
 										enemy_list[e_index]->setType(EnemyType::GOOMBA);
@@ -524,8 +527,8 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 									else
 									{
 										system("cls");
-										cout << "This type doesn't exist\n";
-										system("pause");
+										std::cout << "This type doesn't exist\n";
+										_getch();
 									}
 								}
 								isend3 = true;
@@ -538,8 +541,8 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 					else
 					{
 						system("cls");
-						cout << "There is no enemy\n";
-						system("pause");
+						std::cout << "There is no enemy\n";
+						_getch();
 					}
 					break;
 				}
@@ -548,8 +551,8 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 			}
 			else
 			{
-				cout << "There are no objects\n";
-				system("pause");
+				std::cout << "There are no objects\n";
+				_getch();
 			}
 			system("cls");
 			break;
@@ -561,9 +564,9 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 			while (!isend3)
 			{
 				SetCur(0, 0);
-				cout << "What object you want to delete: ";
-				if (g_e == 0) cout << "ground type      \n";
-				if (g_e == 1) cout << "enemy type       \n";
+				std::cout << "What object you want to delete: ";
+				if (g_e == 0) std::cout << "ground type      \n";
+				if (g_e == 1) std::cout << "enemy type       \n";
 				if (GetKeyState(VK_RIGHT) < 0)
 				{
 					g_e++;
@@ -585,8 +588,8 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 					while (!isend3)
 					{
 						SetCur(0, 0);
-						cout << "Which object you want to delete?\nSelect: ";
-						cout << "gr" << g_index + 1 << "(" << ground_list[g_index]->x1 << ", " << ground_list[g_index]->x2 << ", " <<
+						std::cout << "Which object you want to delete?\nSelect: ";
+						std::cout << "gr" << g_index + 1 << "(" << ground_list[g_index]->x1 << ", " << ground_list[g_index]->x2 << ", " <<
 							ground_list[g_index]->y1 << ", " << ground_list[g_index]->y2 << ", " << ground_list[g_index]->getType() << ")        ";
 						if (GetKeyState(VK_LEFT) < 0)
 						{
@@ -610,8 +613,8 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 				else
 				{
 					system("cls");
-					cout << "There are no grounds\n";
-					system("pause");
+					std::cout << "There are no grounds\n";
+					_getch();
 				}
 				break;
 			case 1:
@@ -619,42 +622,42 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 					while (!isend3)
 					{
 						SetCur(0, 0);
-						cout << "Which object you want to change?\nSelect: ";
-						cout << "enemy" << e_index + 1 << "(" << enemy_list[e_index]->getX() << ", " << enemy_list[e_index]->getY() << ", ";
+						std::cout << "Which object you want to change?\nSelect: ";
+						std::cout << "enemy" << e_index + 1 << "(" << enemy_list[e_index]->getX() << ", " << enemy_list[e_index]->getY() << ", ";
 						switch (enemy_list[e_index]->getType())
 						{
 						case 0:
-							cout << "GOOMBA)       \n";
+							std::cout << "GOOMBA)       \n";
 							break;
 						case 1:
-							cout << "KOOPA)        \n";
+							std::cout << "KOOPA)        \n";
 							break;
 						case 2:
-							cout << "FLYKOOPA)     \n";
+							std::cout << "FLYKOOPA)     \n";
 							break;
 						case 3:
-							cout << "PLANT)        \n";
+							std::cout << "PLANT)        \n";
 							break;
 						case 4:
-							cout << "SFIRE)        \n";
+							std::cout << "SFIRE)        \n";
 							break;
 						case 5:
-							cout << "STAR)        \n";
+							std::cout << "STAR)        \n";
 							break;
 						case 6:
-							cout << "MUSHROOM)        \n";
+							std::cout << "MUSHROOM)        \n";
 							break;
 						case 7:
-							cout << "LIVEMUSHROOM)     \n";
+							std::cout << "LIVEMUSHROOM)     \n";
 							break;
 						case 8:
-							cout << "FLOWER)       \n";
+							std::cout << "FLOWER)       \n";
 							break;
 						case 9:
-							cout << "COIN)         \n";
+							std::cout << "COIN)         \n";
 							break;
 						case 10:
-							cout << "BOSS)         \n";
+							std::cout << "BOSS)         \n";
 							break;
 						}
 						if (GetKeyState(VK_LEFT) < 0)
@@ -678,8 +681,8 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 				else
 				{
 					system("cls");
-					cout << "There are no enemies\n";
-					system("pause");
+					std::cout << "There are no enemies\n";
+					_getch();
 				}
 				break;
 			}
@@ -693,7 +696,7 @@ void interactMenu(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, Map&
 	system("cls");
 }
 
-bool visualWorkSpace(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, int& pos, Map& map)
+bool visualWorkSpace(std::vector<Ground*>& ground_list, std::vector<Enemy*>& enemy_list, int& pos, Map& map)
 {
 	int g_index = -1, e_index = -1,
 		g_prev_index = g_index, e_prev_index = e_index;
@@ -783,11 +786,11 @@ bool visualWorkSpace(vector<Ground*>& ground_list, vector<Enemy*>& enemy_list, i
 void mapCreator()
 {
 	int iex = 0;
-	string name;
-	vector<Ground*> ground_list;
-	vector<Enemy*> enemy_list;
-	ofstream fout;
-	ifstream fin;
+	std::string name;
+	std::vector<Ground*> ground_list;
+	std::vector<Enemy*> enemy_list;
+	std::ofstream fout;
+	std::ifstream fin;
 	Map map(120, 25);
 	int pos = 0, x;
 	bool isend = false, flag;
@@ -795,7 +798,7 @@ void mapCreator()
 	while (!isend)
 	{
 		SetCur(0, 0);
-		cout << "Do you want to create new map or import?\n\n1 - Create new\n2 - Import\n3 - Help\n4 - Exit\n";
+		std::cout << "Do you want to create new map or import?\n\n1 - Create new\n2 - Import\n3 - Help\n4 - Exit\n";
 		switch (_getch())
 		{
 		case '1':
@@ -806,33 +809,33 @@ void mapCreator()
 			flag = visualWorkSpace(ground_list, enemy_list, pos, map);
 			if (flag)
 			{
-				cin.ignore();
+				std::cin.ignore();
 				while (name == "")
 				{
 					system("cls");
-					cout << "Enter name of file: ";
-					getline(cin, name);
+					std::cout << "Enter name of file: ";
+					std::getline(std::cin, name);
 				}
 				x = _wmkdir(L"Maps");
 				fout.open("Maps/" + name + ".txt");
 				if (!fout.is_open())
 				{
-					cout << name + ".txt wasn't opened\n";
-					system("pause");
+					std::cout << name + ".txt wasn't opened\n";
+					_getch();
 					system("cls");
 				}
 				else
 				{
-					fout << "g:" << endl;
+					fout << "g:" << std::endl;
 					for (size_t i = 0; i < ground_list.size(); i++)
 					{
 						ground_list[i]->roundCoords();
 						fout << ground_list[i]->x1 - pos << ":" << ground_list[i]->x2 - pos << ":" << ground_list[i]->y1 << ":" << ground_list[i]->y2 << ":" << ground_list[i]->getType();
 						if (ground_list[i]->getType() == 9)
-							fout << ":" << ground_list[i]->getEX() - ground_list[i]->getSX() << endl;
-						else fout << endl;
+							fout << ":" << ground_list[i]->getEX() - ground_list[i]->getSX() << std::endl;
+						else fout << std::endl;
 					}
-					fout << "e:" << endl;
+					fout << "e:" << std::endl;
 					for (size_t i = 0; i < enemy_list.size(); i++)
 					{
 						fout << enemy_list[i]->getX() - pos << ":" << enemy_list[i]->getY() << ":";
@@ -873,7 +876,7 @@ void mapCreator()
 							break;
 						
 						}
-						fout << endl;
+						fout << std::endl;
 					}
 					fout.close();
 				}
@@ -884,13 +887,13 @@ void mapCreator()
 			enemy_list.clear();
 			pos = 0;
 			system("cls");
-			cout << "Enter name of file: ";
-			getline(cin, name);
+			std::cout << "Enter name of file: ";
+			std::getline(std::cin, name);
 			fin.open("Maps/" + name);
 			if (!fin.is_open())
 			{
-				cout << "This file doesn't exist!\n";
-				system("pause");
+				std::cout << "This file doesn't exist!\n";
+				_getch();
 				system("cls");
 			}
 			else
@@ -903,16 +906,16 @@ void mapCreator()
 				visualWorkSpace(ground_list, enemy_list, pos, map);
 				fin.close();
 				fout.open("Maps/" + name);
-				fout << "g:" << endl;
+				fout << "g:" << std::endl;
 				for (size_t i = 0; i < ground_list.size(); i++)
 				{
 					ground_list[i]->roundCoords();
 					fout << ground_list[i]->x1 - pos << ":" << ground_list[i]->x2 - pos << ":" << ground_list[i]->y1 << ":" << ground_list[i]->y2 << ":" << ground_list[i]->getType();
 					if (ground_list[i]->getType() == 9)
-						fout << ":" << ground_list[i]->getEX() - ground_list[i]->getSX() << endl;
-					else fout << endl;
+						fout << ":" << ground_list[i]->getEX() - ground_list[i]->getSX() << std::endl;
+					else fout << std::endl;
 				}
-				fout << "e:" << endl;
+				fout << "e:" << std::endl;
 				for (size_t i = 0; i < enemy_list.size(); i++)
 				{
 					fout << enemy_list[i]->getX() - pos << ":" << enemy_list[i]->getY() << ":";
@@ -952,7 +955,7 @@ void mapCreator()
 						fout << "BOSS";
 						break;
 					}
-					fout << endl;
+					fout << std::endl;
 				}
 				fout.close();
 			}
@@ -964,7 +967,7 @@ void mapCreator()
 				{
 				case 0:
 					system("cls");
-					cout << "Control:\n\nLeft arrow - move left on the map\nRight Arrow - move right on the map\nQ - call an interactive menu for interaction\n\n" <<
+					std::cout << "Control:\n\nLeft arrow - move left on the map\nRight Arrow - move right on the map\nQ - call an interactive menu for interaction\n\n" <<
 						"In the interactive menu, when you select an object type or when prompted to select an object,\n" <<
 						"move between types or objects on the right and left arrows\n\n" <<
 						"After creating an object, moving the object around the map using the WASD keys\n\n" <<
@@ -973,14 +976,14 @@ void mapCreator()
 					break;
 				case 1:
 					system("cls");
-					cout << "Ground types:\n\n0 - standart ground type\n1 - ? ground type with mushrooms(2x2 size)\n2 - ? ground type with coin(2x2 size)\n" <<
+					std::cout << "Ground types:\n\n0 - standart ground type\n1 - ? ground type with mushrooms(2x2 size)\n2 - ? ground type with coin(2x2 size)\n" <<
 						"3 - invisibility ground type with mushrooms(2x2 size)\n4 - invisibility ground type with coin(2x2 size)\n5 - brick ground type(its dimensions are multiples of 2)\n" <<
 						"6 - lava ground\n7 - bridge ground\n8 - handle(to lower the bridge)\n9 - flying horizontally ground\n11 - finish ground\n\n" <<
 						"<< Prev\t\tNext >>\n\nEnter in order to exit";
 					break;
 				case 2:
 					system("cls");
-					cout << "Enemy types:\n\nGOOMBA\nKOOPA\nFLYKOOPA\nPLANT\nSFIRE\nSTAR\nMUSHROOM\nLIVEMUSHROOM\nFLOWER\nCOIN\nBOSS\n\n" <<
+					std::cout << "Enemy types:\n\nGOOMBA\nKOOPA\nFLYKOOPA\nPLANT\nSFIRE\nSTAR\nMUSHROOM\nLIVEMUSHROOM\nFLOWER\nCOIN\nBOSS\n\n" <<
 						"<< Prev\t\tNext >>\n\nEnter in order to exit";
 					break;
 				}

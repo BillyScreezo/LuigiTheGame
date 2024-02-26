@@ -1,11 +1,12 @@
+#include <iostream>
+#include <conio.h>
+#include <Windows.h>
+
 #include "Foo.h"
 #include "Player.h"
-#include "Levels.h"
 #include "MapCreator.h"
 #include "Enemy.h"
 #include "Const.h"
-
-using namespace std;
 
 void SetCur(int x, int y)
 {
@@ -28,7 +29,7 @@ void HideCursor()
 	SetConsoleCursorInfo(handle, &structCursorInfo);
 }
 
-void control(Map& map, Player& player, vector<Ground*>& ground_list, vector<Enemy*>& ENEMY, bool& isend, bool& isstoryend)
+void control(Map& map, Player& player, std::vector<Ground*>& ground_list, std::vector<Enemy*>& ENEMY, bool& isend, bool& isstoryend)
 {
 	clock_t t1 = clock();
 	if (!player.isDead())
@@ -98,10 +99,10 @@ void control(Map& map, Player& player, vector<Ground*>& ground_list, vector<Enem
 		}
 	}
 }
-void openOrWrite(int lNumber, ifstream& file)
+void openOrWrite(int lNumber, std::ifstream& file)
 {
 	int x = _wmkdir(L"Maps");
-	string lName = "Maps/story_";
+	std::string lName = "Maps/story_";
 	switch (lNumber)
 	{
 	case 1:
@@ -121,7 +122,7 @@ void openOrWrite(int lNumber, ifstream& file)
 	file.open(lName);
 	if (!file.is_open())
 	{
-		ofstream writeFile(lName);
+		std::ofstream writeFile(lName);
 		switch (lNumber)
 		{
 		case 1:
@@ -490,10 +491,10 @@ void storyMode()
 	pLives = 3;
 	bool isstoryend = false;
 	Map* map = new Map(120, 25);
-	vector<Ground*> ground_list;
-	vector<Enemy*> enemy_list;
+	std::vector<Ground*> ground_list;
+	std::vector<Enemy*> enemy_list;
 	Player player(15, 2, pwidth, pheight, walkspeed, fallspeed, '@', *map, ground_list);
-	ifstream file;
+	std::ifstream file;
 	int pLivesTemp;
 	for (int i{ 1 }; i <= 4; ++i)
 	{
@@ -522,25 +523,25 @@ void storyMode()
 
 	if (pLives == 0)
 	{
-		cout << "\nGame over!\n\n";
-		cout << "\nTotal score: " << player.getScore() << "\n\n";
-		system("pause");
+		std::cout << "\nGame over!\n\n";
+		std::cout << "\nTotal score: " << player.getScore() << "\n\n";
+		_getch();
 	}
 	else
 	{
 		if (!isstoryend)
 		{
-			cout << "\nYou have passed the story mode of the game, congratulations!\n\n";
-			cout << "\nTotal score: " << player.getScore() << "\n\n";
-			system("pause");
+			std::cout << "\nYou have passed the story mode of the game, congratulations!\n\n";
+			std::cout << "\nTotal score: " << player.getScore() << "\n\n";
+			_getch();
 			system("cls");
-			cout << "\nTry also creating your own world with MapCreatorand playing in it!\n\n";
-			system("pause");
+			std::cout << "\nTry also creating your own world with MapCreatorand playing in it!\n\n";
+			_getch();
 		}
 	}
 }
 
-void spawnCoin(Player& player, vector<Ground*>& ground_list, size_t index, vector<Enemy*>& enemy_list, Map& map)
+void spawnCoin(Player& player, std::vector<Ground*>& ground_list, size_t index, std::vector<Enemy*>& enemy_list, Map& map)
 {
 	Enemy* coin = new Enemy(ground_list[index]->fx1, ground_list[index]->fy1 - 1.0f, EnemyType::COIN, map, ground_list, false, false);
 	enemy_list.push_back(coin);
@@ -550,16 +551,16 @@ void spawnCoin(Player& player, vector<Ground*>& ground_list, size_t index, vecto
 void playMenu()
 {
 	bool isend = false, isend2 = false;
-	string str;
+	std::string str;
 	Map* map = new Map(120, 25);
-	vector<Ground*> ground_list;
-	vector<Enemy*> enemy_list;
+	std::vector<Ground*> ground_list;
+	std::vector<Enemy*> enemy_list;
 	Player player(15, 2, 2, 2, walkspeed, fallspeed, '@', *map, ground_list);
-	ifstream fin;
+	std::ifstream fin;
 	while (!isend)
 	{
 		system("cls");
-		cout << "Main Menu\n\n1 - Story mode\n2 - Load your map\n3 - Control\n4 - Back";
+		std::cout << "Main Menu\n\n1 - Story mode\n2 - Load your map\n3 - Control\n4 - Back";
 		switch (_getch())
 		{
 		case '1':
@@ -568,13 +569,13 @@ void playMenu()
 			break;
 		case '2':
 			system("cls");
-			cout << "Enter file name: ";
-			getline(cin, str);
+			std::cout << "Enter file name: ";
+			std::getline(std::cin, str);
 			fin.open("Maps/" + str);
 			if (!fin.is_open())
 			{
-				cout << "Error! This file doesn't exist!\n";
-				system("pause");
+				std::cout << "Error! This file doesn't exist!\n";
+				_getch();
 			}
 			else
 			{
@@ -589,7 +590,7 @@ void playMenu()
 			break;
 		case '3':
 			system("cls");
-			cout << "Control:\n\nA - walk left\nD - walk right\nLeft Shift - run/shoot\nSpace - jump\nESC - pause\n\nEnter - back to main menu";
+			std::cout << "Control:\n\nA - walk left\nD - walk right\nLeft Shift - run/shoot\nSpace - jump\nESC - pause\n\nEnter - back to main menu";
 			while (_getch() != 13);
 			break;
 		case '4':
@@ -600,29 +601,106 @@ void playMenu()
 	system("cls");
 }
 
+void playLevel(std::vector<Ground*>& ground_list, std::vector<Enemy*>& enemy_list, Map& map, const unsigned int endTime, Player& player, bool& isstoryend)
+{
+	bool isend = false, isgameend = false;
+	clock_t t1 = 0, t2 = 0;
+
+	enemyModule(enemy_list, player, ground_list, map, WorkType::ENABLEALL);
+
+	Timer timer;
+	timer.set();
+
+	player.ctrl = true;
+
+	if (player.isDead()) player.resetPlayer();
+
+	while (!isend)
+	{
+		SetCur(0, 0);
+
+		map.fillSpace();
+
+		for (size_t i = 0; i < ground_list.size(); i++)
+			ground_list[i]->putOnMap();
+
+		enemyModule(enemy_list, player, ground_list, map, WorkType::PUTONMAP);
+
+		player.putOnMap();
+
+		map.printMap();
+
+		player.physic(enemy_list, 1);
+		control(map, player, ground_list, enemy_list, isend, isstoryend);
+
+		enemyModule(enemy_list, player, ground_list, map, WorkType::PHYSIC);
+		enemyModule(enemy_list, player, ground_list, map, WorkType::INTERACTION);
+
+		groundCheck(ground_list, player);
+
+		printStat(player, timer, endTime);
+		Sleep(15);
+
+		t2 = clock();
+		if (player.checkDown() || (player.isEndLevel(ground_list, t1) && t2 - t1 >= 250))
+		{
+			isend = true;
+		}
+	}
+	if (!isstoryend && !player.isDead())
+	{
+		timer.check();
+		int timeLeft = endTime - timer.get();
+		int tempS = 0;
+		for (int i{ 0 }; i <= timeLeft; ++i)
+		{
+			SetCur(0, 0);
+			map.fillSpace();
+			for (size_t i = 0; i < ground_list.size(); i++)
+				ground_list[i]->putOnMap();
+
+			player.putOnMap();
+
+			enemyModule(enemy_list, player, ground_list, map, WorkType::PUTONMAP);
+
+			map.printMap();
+
+			player.addScore(10);
+			std::cout << "Time: " << timeLeft - i << ' ';
+			std::cout << "\nLives: " << pLives << ' ';
+			std::cout << "\nScore: " << player.getScore();
+			std::cout << "\n        ";
+			Sleep(10);
+		}
+
+		Sleep(2000);
+	}
+	system("cls");
+}
+
 void printStat(Player& player,Timer &timer, const int endTime)
 {
 	timer.check();
 	static unsigned int delayS = -1;
 	unsigned int sec = timer.get();
-	cout << "Time: " << endTime - sec << ' ';
-	cout << "\nLives: " << pLives << ' ';
-	cout << "\nScore: " << player.getScore();
+	std::cout << "Time: " << endTime - sec << ' ';
+	std::cout << "\nLives: " << pLives << ' ';
+	std::cout << "\nScore: " << player.getScore();
 	if (player.useStar())
 	{
 		if (delayS == -1)
 			delayS = sec;
-		cout << "\nStar: " << (unsigned int)10 - (sec - delayS) << ' ';
+		std::cout << "\nStar: " << (unsigned int)10 - (sec - delayS) << ' ';
 	}
 	else
 	{
 		delayS = -1;
-		cout << "\n        ";
+		std::cout << "\n        ";
 	}
 }
 
 
-void spawnMushroom(Player& player, vector<Ground*>& ground_list, size_t index, vector<Enemy*>& enemy_list, Map& map)
+void spawnMushroom(Player& player, std::vector<Ground*>& ground_list, size_t index, std::vector<Enemy*>& enemy_list, Map& map)
 {
 	Enemy* mush;
 	if (player.getLevel() == 1)
@@ -632,7 +710,7 @@ void spawnMushroom(Player& player, vector<Ground*>& ground_list, size_t index, v
 	enemy_list.push_back(mush);
 }
 
-void groundCheck(vector<Ground*>& ground_list, Player& player)
+void groundCheck(std::vector<Ground*>& ground_list, Player& player)
 {
 	for (size_t i = 0; i < ground_list.size(); i++)
 	{
@@ -728,7 +806,7 @@ void pauseMenu(bool& isend, bool& isstoryend)
 	while (ispause)
 	{
 		system("cls");
-		cout << "Pause\n\n1 - Back\n2 - Control\n3 - Exit\n";
+		std::cout << "Pause\n\n1 - Back\n2 - Control\n3 - Exit\n";
 		switch ((char)_getch())
 		{
 		case '1':
@@ -737,7 +815,7 @@ void pauseMenu(bool& isend, bool& isstoryend)
 			break;
 		case '2':
 			system("cls");
-			cout << "Control:\n\nA - walk left\nD - walk right\nLeft Shift - run/shoot\nSpace - jump\n\nEnter - back to pause menu";
+			std::cout << "Control:\n\nA - walk left\nD - walk right\nLeft Shift - run/shoot\nSpace - jump\n\nEnter - back to pause menu";
 			while (_getch() != 13);
 			break;
 		case '3':
